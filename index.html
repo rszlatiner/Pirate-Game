@@ -11,7 +11,7 @@
 @media(prefers-color-scheme:dark){:root{--sea:#0a1822;--sea2:#12304a;--paper:#1f2a33;--paper2:#2a3742;--ink:#efe6d0;--mute:#b3a58a;--red:#ff8a80;--gold:#f0b75a;--line:#3b4b58;--ok:#6ad28b}}
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,var(--sea2),var(--sea));min-height:100vh;color:var(--ink);font:17px/1.6 Lora,Georgia,serif}
-.wrap{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+.wrap{max-width:740px;margin:0 auto;padding:14px 14px 60px}
 h1,h2,h3,.fancy{font-family:"Pirata One",Georgia,serif;font-weight:400;letter-spacing:.02em}
 .top{display:flex;align-items:center;justify-content:space-between;color:#f7ecd1;margin:6px 0 10px;gap:8px;flex-wrap:wrap}
 .top .logo{font-family:"Pirata One",serif;font-size:22px}
@@ -21,6 +21,7 @@ h1,h2,h3,.fancy{font-family:"Pirata One",Georgia,serif;font-weight:400;letter-sp
 .card{background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:18px 18px 16px;box-shadow:0 6px 18px rgba(0,0,0,.25);margin-bottom:14px}
 .scene{font-size:54px;text-align:center;line-height:1;margin:4px 0 6px}
 h2.title{text-align:center;font-size:30px;margin:0 0 10px;color:var(--red)}
+h3{font-size:22px;margin:14px 0 6px;color:var(--red)}
 .card p{margin:0 0 12px}
 .hud{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .pill{background:var(--paper2);border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:14px}
@@ -37,6 +38,7 @@ textarea{min-height:80px;resize:vertical}
 .btn{font:inherit;font-size:16px;border:2px solid var(--red);background:var(--red);color:#fff;border-radius:10px;padding:9px 16px;cursor:pointer}
 @media(prefers-color-scheme:dark){.btn{color:#10141f}}
 .btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.sm{padding:4px 10px;font-size:14px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
 .pets{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0 12px}
 .pet{background:var(--paper2);border:2px solid var(--line);border-radius:12px;padding:10px;text-align:center;font:inherit;color:var(--ink);cursor:pointer}
@@ -50,11 +52,21 @@ textarea{min-height:80px;resize:vertical}
 .eb.lock{opacity:.5}
 .entry{border-left:4px solid var(--gold);padding:4px 10px;margin:10px 0;background:var(--paper2);border-radius:6px}
 .entry small{color:var(--mute)}
+.slot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0}
+.slot small{color:var(--mute);display:block}
+table.lb{width:100%;border-collapse:collapse;font-size:15px}
+table.lb th,table.lb td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:left}
+table.lb td.n,table.lb th.n{text-align:right}
+table.lb tr.me{background:var(--paper2);font-weight:600}
+.score{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-top:10px;font-size:15px}
+.score div{display:flex;justify-content:space-between}
+.score .tot{border-top:1px solid var(--line);margin-top:4px;padding-top:4px;font-weight:700}
 details.t{background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:8px 14px;margin-top:6px}
 details.t summary{cursor:pointer;font-weight:600}
 details.t li{margin:5px 0}
 .fade{animation:f .35s ease}@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 [hidden]{display:none!important}
+.msg{color:var(--ok);margin-top:6px}
 </style>
 </head>
 <body>
@@ -63,7 +75,10 @@ details.t li{margin:5px 0}
     <div class="logo">🏴‍☠️ The Curse of the Missing Hat</div>
     <div class="tools">
       <button class="tbtn" id="bRewind" disabled>↩ Rewind</button>
-      <button class="tbtn" id="bLog">📖 Captain's Log</button>
+      <button class="tbtn" id="bSaveJ">💾 Save</button>
+      <button class="tbtn" id="bBoard">🏆 Leaderboard</button>
+      <button class="tbtn" id="bJ">🗺️ Journeys</button>
+      <button class="tbtn" id="bLog">📖 Log</button>
       <button class="tbtn" id="bHome">🏠 Title</button>
     </div>
   </div>
@@ -72,12 +87,13 @@ details.t li{margin:5px 0}
   <div id="vTitle" class="card fade">
     <div class="scene">⛵🦜🏝️</div>
     <h2 class="title">The Curse of the Missing Hat</h2>
-    <p style="text-align:center"><i>A humorous pirate adventure where <b>you</b> decide what happens next. Choose wisely. Or hilariously. Both work.</i></p>
+    <p style="text-align:center"><i>A humorous pirate adventure where <b>you</b> decide what happens next. Gather your crew, win allies, spend doubloons wisely, and chase the high score. Choose wisely. Or hilariously. Both work.</i></p>
     <label for="nm"><b>What's your pirate name?</b></label>
     <input type="text" id="nm" maxlength="20" placeholder="e.g. Captain Wobblebeard" style="margin:6px 0 12px">
     <div><b>Choose your sidekick:</b></div>
     <div class="pets" id="pets"></div>
-    <div class="row"><button class="btn" id="bStart">Set sail! ⚓</button><button class="btn alt" id="bResume" hidden>Continue my adventure</button></div>
+    <div class="row"><button class="btn" id="bStart">Set sail! ⚓</button><button class="btn alt" id="bResume" hidden>Continue last adventure</button></div>
+    <div id="titleSaves"></div>
     <div style="margin-top:14px"><b>Endings found:</b> <span id="endCount"></span><div class="endsgrid" id="endList"></div></div>
   </div>
 
@@ -89,10 +105,11 @@ details.t li{margin:5px 0}
       <h2 class="title" id="ttl"></h2>
       <div id="txt"></div>
       <div class="notes" id="notes"></div>
+      <div id="scoreBox"></div>
       <div class="log" id="logBox" hidden>
         <label for="logIn" id="logQ"></label>
         <textarea id="logIn" placeholder="Write here, then save it to your Captain's Log..."></textarea>
-        <div class="row"><button class="btn alt" id="logSave">Save to my Captain's Log</button><span id="logMsg" class="note" style="color:var(--ok)"></span></div>
+        <div class="row"><button class="btn alt" id="logSave">Save to my Captain's Log</button><span id="logMsg" class="msg"></span></div>
       </div>
       <div class="choices" id="choices"></div>
     </div>
@@ -103,18 +120,49 @@ details.t li{margin:5px 0}
     <h2 class="title">📖 Captain's Log</h2>
     <p style="text-align:center;margin-top:-4px"><i>Everything you've written on your adventures.</i></p>
     <div id="logList"></div>
-    <div class="row"><button class="btn alt" id="logCopy">Copy my log</button><button class="btn alt" id="logClear">Clear log</button><button class="btn" id="logBack">Back to the story</button></div>
-    <div id="logCopyMsg" style="color:var(--ok);margin-top:6px"></div>
+    <div class="row"><button class="btn alt" id="logCopy">Copy my log</button><button class="btn alt" id="logClear">Clear log</button><button class="btn" data-back>Back</button></div>
+    <div id="logCopyMsg" class="msg"></div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="vBoard" class="card fade" hidden>
+    <h2 class="title">🏆 Doubloon Leaderboard</h2>
+    <p style="text-align:center;margin-top:-4px"><i>Top treasure hunters on this device.</i></p>
+    <div id="boardList"></div>
+    <p style="font-size:14px;color:var(--mute)"><b>How scoring works:</b> each doubloon = 10 points, each ally = 25 points, plus a bonus for your ending (the harder the ending, the bigger the bonus).</p>
+    <div class="row"><button class="btn alt" id="boardCopy">Copy leaderboard</button><button class="btn alt" id="boardClear">Clear leaderboard</button><button class="btn" data-back>Back</button></div>
+    <div id="boardMsg" class="msg"></div>
+  </div>
+
+  <!-- JOURNEYS -->
+  <div id="vJ" class="card fade" hidden>
+    <h2 class="title">🗺️ My Journeys</h2>
+    <div id="jSaveBox">
+      <h3>Save this journey</h3>
+      <p style="margin:0 0 6px;font-size:15px">Give your adventure a name and pick it up again any time.</p>
+      <div class="row" style="margin-top:0"><input type="text" id="jName" maxlength="40" placeholder="e.g. The one where I befriended Kevin" style="flex:1 1 240px;width:auto"><button class="btn" id="jSave">Save journey</button></div>
+      <div id="jMsg" class="msg"></div>
+    </div>
+    <h3>Saved journeys (continue later)</h3>
+    <div id="jSlots"></div>
+    <h3>Completed journeys</h3>
+    <div id="jHistory"></div>
+    <h3>Backup / move to another device</h3>
+    <p style="margin:0 0 6px;font-size:15px">Your journeys, log and scores live in this browser. Copy a backup code to keep them safe or move them to another device.</p>
+    <textarea id="bkCode" rows="3" placeholder="Backup code appears here, or paste one to import"></textarea>
+    <div class="row"><button class="btn alt" id="bkMake">Create backup code</button><button class="btn alt" id="bkCopy">Copy</button><button class="btn alt" id="bkLoad">Import code</button><button class="btn" data-back>Back</button></div>
+    <div id="bkMsg" class="msg"></div>
   </div>
 
   <details class="t" style="margin-top:14px">
     <summary>🧑‍🏫 For teachers: using this in a creative writing class</summary>
     <ul>
-      <li><b>Branching narrative:</b> have students map the story on paper. Which choices lead to which endings? Where do paths merge?</li>
+      <li><b>Branching narrative:</b> have students map the story on paper. Which choices lead to which of the 10 endings? Where do paths merge? Which characters are needed to unlock the best ending?</li>
       <li><b>Captain's Log prompts</b> appear at five points (similes, dialogue, puns, monologue, voice). Students save their writing and copy their whole log into a document at the end.</li>
+      <li><b>Characters with jobs:</b> every side character is essential to the plot. Ask: what does each character <i>want</i>, and what would change if they were removed?</li>
       <li><b>Humour toolkit:</b> look for exaggeration, deadpan, puns, running gags (the trousers, Kevin, the monocle) and rule-of-three.</li>
-      <li><b>Extension task:</b> each student writes a brand-new passage with two choices and swaps it with a partner. Or rewrites an ending from another character's point of view.</li>
-      <li><b>Replay value:</b> there are 8 endings. Challenge the class to find them all and compare which choices led where.</li>
+      <li><b>Leaderboard:</b> scores are stored on each device. For a class competition, use the "Copy leaderboard" button and collect results, or have students compare "Journeys" and discuss which choices earned the most doubloons.</li>
+      <li><b>Extension task:</b> each student writes a brand-new passage or side character with two choices and swaps it with a partner.</li>
     </ul>
   </details>
 </div>
@@ -124,13 +172,17 @@ details.t li{margin:5px 0}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-const ITEMS={key:["🗝️","Suspiciously Sticky Key"],scope:["🔭","Telescope with One Working End"],chicken:["🐔","Rubber Chicken"],crumbs:["🍪","Bag of Biscuit Crumbs"],pie:["🥧","Hat-Shaped Pie"],crown:["🦀","Crab Crown"]};
+const ITEMS={key:["🗝️","Suspiciously Sticky Key"],scope:["🔭","Telescope with One Working End"],chicken:["🐔","Rubber Chicken"],crumbs:["🍪","Bag of Biscuit Crumbs"],pie:["🥧","Hat-Shaped Pie"],crown:["🦀","Crab Crown"],spoon:["🥄","Grappling Spoon"]};
 const PETS={
  parrot:{name:"Gerald",kind:"parrot",emoji:"🦜",blurb:"Repeats the most embarrassing thing you ever said."},
  crab:{name:"Clawdia",kind:"crab",emoji:"🦀",blurb:"Pinches first. Apologises never."},
  goat:{name:"Sir Chews-a-Lot",kind:"goat",emoji:"🐐",blurb:"Will eat anything, including evidence."}
 };
-const ENDINGS={end_nap:"The Great Nap",end_dance:"Dance Floor Legend",end_biscuit:"Treasure! (Mostly Biscuits)",end_pants:"Legend of the Pantsless Pirate",end_fair:"The Diplomat",end_nest:"Nest Egg",end_crab:"Admiral of the Mildly Angry Navy",end_kevin:"Best Friend of a Sea Monster"};
+/* Allies: each side character who becomes your friend */
+const ALLIES={f_bart:"Bartholomew the Cook",f_sam:"Squid-Eye Sam",f_whisk:"Admiral Whiskers",f_prof:"Professor Bubbles",f_kevin:"Kevin the Sea Monster",f_crab:"King Crabsworth",f_dave:"The Dreaded Dave",f_madame:"Madame Mizzenmast"};
+const NAMES=Object.assign({h_bart:"the Cook's testimony",h_sam:"the Lookout's report",h_whisk:"what's hiding in the cargo hold",h_prof:"the Professor's gadget",route_dave:"directions from Dave",route_madame:"a reading from Madame Mizzenmast"},ALLIES);
+const ENDINGS={end_nap:"The Great Nap",end_dance:"Dance Floor Legend",end_biscuit:"Treasure! (Mostly Biscuits)",end_pants:"Legend of the Pantsless Pirate",end_fair:"The Diplomat",end_nest:"Nest Egg",end_crab:"Admiral of the Mildly Angry Navy",end_kevin:"Best Friend of a Sea Monster",end_moon:"One Small Step for Pirates",end_alliance:"The Grand Alliance"};
+const BONUS={end_alliance:200,end_fair:120,end_nest:100,end_kevin:100,end_crab:90,end_biscuit:70,end_pants:60,end_dance:50,end_moon:40,end_nap:5};
 
 /* ---------------- STORY ---------------- */
 const N={
@@ -140,68 +192,100 @@ wake:{e:"🏴‍☠️",t:"A Very Bad Morning",x:[
  "Every pirate on deck turns to look at you, {name}. This is partly because you're the newest crew member, and partly because you're the only one holding a spoon at breakfast, which looks suspicious.",
  "“Somebody find that hat,” says the Captain, “or we're eating the figurehead for dinner.”"],
  pets:{parrot:"{pet} flaps onto your shoulder and squawks, “{NAME} DID IT! {NAME} DID IT!” You did not do it. You're almost certain.",crab:"{pet} clicks both claws in what you are sure is a very good alibi.",goat:"{pet} is chewing something hat-shaped. It turns out to be a sock. Phew."},
- c:[{t:"Search the galley (the kitchen)",to:"galley"},{t:"Climb up to the crow's nest",to:"crow"},{t:"Dig through the cargo hold",to:"hold"},{t:"Pull the blanket back over your head and go back to sleep",to:"end_nap"}]},
+ c:[{t:"Get up and find out what the Captain wants",to:"deck"},{t:"Pull the blanket back over your head and go back to sleep",to:"end_nap"}]},
+
+deck:{e:"⚓",t:"All Hands on Deck",x:[
+ "Captain Betty stomps across the deck, waving a hook-shaped finger. (It's a finger-shaped hook. Nobody is sure which came first.)",
+ "“Crab Island is DANGEROUS,” she says. “Nobody leaves this ship until I have four things: <b>the Cook's testimony, the Lookout's report, whatever's hiding in my cargo hold, and a gadget from the Professor.</b> Each of them knows something you need. Go! Chop chop! Not literally chop. Bartholomew is in a mood.”"],
+ c:[{t:"Visit the galley (Bartholomew the Cook)",to:"galley",doneFlag:"h_bart"},{t:"Climb to the crow's nest (Squid-Eye Sam, the Lookout)",to:"crow",doneFlag:"h_sam"},{t:"Search the cargo hold",to:"hold",doneFlag:"h_whisk"},{t:"Knock on the Professor's workshop door",to:"workshop",doneFlag:"h_prof"},{t:"Report back to the Captain: you're ready to sail",to:"docks",needFlags:["h_bart","h_sam","h_whisk","h_prof"]}]},
 
 galley:{e:"🍲",t:"The Galley of Questionable Stew",x:[
  "The galley smells like boiled socks and ambition. Cook Bartholomew “Nobeard” McGee stands over a cauldron, stirring a stew that is bubbling in colours not found in nature.",
  "Bartholomew has no beard. He has, however, drawn one on with charcoal. It is smudging down his neck.",
- "On the floor, a trail of biscuit crumbs leads away toward the deck. Somebody has been sneaking snacks. Or stealing hats. Possibly both."],
- c:[{t:"Taste the stew (brave, but probably a mistake)",to:"stew"},{t:"Question the cook",to:"cook"},{t:"Follow the trail of crumbs",to:"crumbs"}]},
-stew:{e:"🧦",t:"The Sock Stew",give:["key"],x:[
+ "On the floor, a trail of biscuit crumbs leads away toward the deck. Somebody has been sneaking snacks. Or stealing hats. Possibly both. Bartholomew knows something. You'll have to talk to him."],
+ c:[{t:"Taste the stew (brave, but probably a mistake)",to:"stew",doneFlag:"v_stew"},{t:"Follow the trail of crumbs",to:"crumbs",doneFlag:"v_crumbs"},{t:"Question the cook",to:"cook"}]},
+stew:{e:"🧦",t:"The Sock Stew",give:["key"],set:["v_stew"],x:[
  "You take a spoonful. It tastes like a wet sock that once met a fish at a party and did not enjoy it.",
  "Something hard clinks against your teeth. You spit it into your hand: a <b>Suspiciously Sticky Key</b>. You decide not to ask why it was in the stew. Some mysteries are not for knowing."],
  pets:{parrot:"{pet} says, “Ewww. {NAME} ATE THE SOCK STEW.”",crab:"{pet} sidesteps away from you and refuses to make eye contact.",goat:"{pet} looks at the stew with deep respect, then eats the pot."},
  log:"Describe the taste of the sock stew using a simile nobody has ever used before.",
- c:[{t:"Question the cook (while pretending you're fine)",to:"cook"},{t:"Follow the trail of crumbs",to:"crumbs"}]},
+ c:[{t:"Back to the galley",to:"galley"}]},
+crumbs:{e:"🍪",t:"The Crumb Trail",give:["crumbs"],set:["v_crumbs"],x:[
+ "You follow the crumbs along the deck, up the stairs, past a sleeping pirate, around a barrel, and straight to the railing.",
+ "There, in a smear of butter, are tiny webbed footprints. A seagull. And next to each print is a perfect little circle, like the mark of a monocle. Which is ridiculous. Birds don't wear monocles.",
+ "You scoop up the crumbs. They might come in handy. Or they might be lunch."],
+ pets:{parrot:"{pet} whispers, “MONOCLE. MONOCLE.” You tell them to be quiet.",crab:"{pet} measures the footprints with one claw and nods wisely.",goat:"{pet} eats a few crumbs, then pretends not to have."},
+ c:[{t:"Back to the galley",to:"galley"}]},
 cook:{e:"🥧",t:"The Cook Cracks",x:[
  "“I didn't take it!” Bartholomew shouts, before you've asked anything. “Also, I'm not hiding anything behind my back!”",
  "He is hiding something behind his back. It is a pie. It is shaped like a hat.",
  "“It's a coincidence,” he says. “The Captain said hat-shaped pies are tax deductible.”"],
  c:[{t:"Accept the pie (it smells amazing)",to:"pie"},{t:"Accuse him dramatically, with finger-pointing",to:"accuse"}]},
-pie:{e:"🥧",t:"The Pie of Friendship",give:["pie"],x:[
+pie:{e:"🥧",t:"The Pie of Friendship",give:["pie"],set:["h_bart","f_bart"],x:[
  "You accept the pie. It is warm, golden, and shaped exactly like Captain Betty's hat. The brim is crispy.",
- "Bartholomew sighs. “Fine. I saw a seagull with a monocle swoop over the ship last night. Big bird. Carrying something fancy and hat-ish. Flew toward Crab Island.” He wipes a tear, smudging his beard further. “Don't tell the Captain I make good pies.”"],
- c:[{t:"Report back to the Captain",to:"docks"}]},
-accuse:{e:"☁️",t:"J'ACCUSE!",x:[
+ "Bartholomew sighs. “Fine. I saw a seagull with a monocle swoop over the ship last night. Big bird. Carrying something fancy and hat-ish. Flew toward Crab Island.” He wipes a tear, smudging his beard further. “You're all right, {name}. If you ever need a friend in the kitchen, I'm your cook.”"],
+ c:[{t:"Head back on deck",to:"deck"}]},
+accuse:{e:"☁️",t:"J'ACCUSE!",set:["h_bart"],x:[
  "You gasp, point, and shout “J'ACCUSE!” You do not know how to pronounce it. Nobody does.",
  "Bartholomew faints onto a sack of flour, creating a huge white cloud. When it clears, he is lying there looking like a ghost with a charcoal chin. “It was a seagull!” he whimpers. “Monocle! Flew to Crab Island!”",
- "The pie bounces off a cupboard and rolls away. You sneeze so loudly that a door falls off its hinges."],
- c:[{t:"Hurry to the Captain",to:"docks"}]},
-crumbs:{e:"🍪",t:"The Crumb Trail",give:["crumbs"],x:[
- "You follow the crumbs along the deck, up the stairs, past a sleeping pirate, around a barrel, and straight to the railing.",
- "There, in a smear of butter, are tiny webbed footprints. A seagull. And next to each print is a perfect little circle, like the mark of a monocle. Which is ridiculous. Birds don't wear monocles.",
- "You scoop up the crumbs. They might come in handy. Or they might be lunch."],
- pets:{parrot:"{pet} whispers, “MONOCLE. MONOCLE.” You tell them to be quiet.",crab:"{pet} measures the footprints with one claw and nods wisely.",goat:"{pet} eats a few crumbs, then pretends not to have."},
- c:[{t:"Run to tell the Captain",to:"docks"}]},
+ "The pie bounces off a cupboard and rolls away. He doesn't speak to you again for the rest of the morning."],
+ c:[{t:"Head back on deck",to:"deck"}]},
 
 crow:{e:"🔭",t:"The Crow's Nest",x:[
  "You climb the rigging to the crow's nest. At the top sits Squid-Eye Sam, the lookout. He is wearing an eyepatch over his left eye. And another over his right eye. “For balance,” he says.",
  "“Seen anything suspicious?” you ask.",
  "“I see... darkness,” says Sam. “Wonderful, peaceful darkness.”"],
  c:[{t:"Gently suggest he take off the eyepatches",to:"patches"},{t:"Ask what he heard last night",to:"ask"}]},
-patches:{e:"🌈",t:"Sam Can See!",give:["scope"],x:[
+patches:{e:"🌈",t:"Sam Can See!",give:["scope"],set:["h_sam","f_sam"],x:[
  "Sam lifts both patches, blinks like a startled owl, and cries, “IT'S A SEAGULL! Wearing a monocle! Carrying a hat! Flying toward that island! Why didn't anyone TELL me the world was so colourful?”",
- "Delighted, he gives you his telescope. “One end works,” he says. “I forget which.”"],
+ "Delighted, he gives you his telescope. “One end works,” he says. “I forget which. Call on me any time, friend. I'll be the one finally looking at things.”"],
  log:"Sam sees the world clearly for the first time. Write what he says about the colours (three sentences, and he should be wrong about at least one).",
- c:[{t:"Climb down and tell the Captain",to:"docks"}]},
-ask:{e:"🙈",t:"Sam's Testimony",x:[
+ c:[{t:"Climb down to the deck",to:"deck"}]},
+ask:{e:"🙈",t:"Sam's Testimony",set:["h_sam"],x:[
  "“Heard flapping,” says Sam. “Big wings. Maybe a bird. Maybe a very small man in a trench coat. I couldn't tell. I have been blind for eleven years and nobody noticed.”",
  "He points at roughly the opposite direction from the sea. “Probably went that way.”",
  "You turn around and notice the pirate flag, which is pointing toward a speck of land. The flag is clearly smarter than Sam."],
- c:[{t:"Maybe the eyepatches are the problem?",to:"patches"},{t:"Follow the flag and tell the Captain",to:"docks"}]},
+ c:[{t:"Maybe the eyepatches are the problem?",to:"patches"},{t:"Follow the flag and climb back down",to:"deck"}]},
 
 hold:{e:"🐔",t:"The Cargo Hold",x:[
  "The cargo hold is damp, dark, and filled with hundreds of rubber chickens. Each crate is stamped EMERGENCY USE ONLY. Nobody knows what emergency. Everybody is afraid to find out.",
- "Behind a crate, something scuttles."],
- c:[{t:"Take a rubber chicken (just in case)",to:"hold2"},{t:"Investigate the scuttling",to:"scuttle"}]},
-scuttle:{e:"🐀",t:"Admiral Whiskers",x:[
- "It's a rat. A very small rat. Wearing a very small pirate hat. “Admiral Whiskers,” he squeaks. “Seagull. Monocle. Crab Island. That's all I'm saying. Unless you have cheese.”",
- "You do not have cheese. Admiral Whiskers shrugs, bites your boot, and vanishes into the crates. It hurts surprisingly little."],
- c:[{t:"Grab a rubber chicken on your way out",to:"hold2"}]},
-hold2:{e:"🐔",t:"One Rubber Chicken",give:["chicken"],x:[
+ "Behind a crate, something scuttles. Something that knows things."],
+ c:[{t:"Take a rubber chicken (just in case)",to:"hold2",doneFlag:"v_chicken"},{t:"Investigate the scuttling",to:"scuttle"}]},
+hold2:{e:"🐔",t:"One Rubber Chicken",give:["chicken"],set:["v_chicken"],x:[
  "You pick up a rubber chicken. It squeaks. You feel safer already.",
- "In the mud by the hatch you spot webbed footprints heading up to the deck. Each one has a tiny circle next to it. A seagull. With a monocle? Absurd. But your instincts say: tell the Captain."],
- c:[{t:"Hurry to the Captain",to:"docks"}]},
+ "In the mud by the hatch you spot webbed footprints heading up to the deck. Each one has a tiny circle next to it. A seagull. With a monocle? Absurd."],
+ c:[{t:"Back into the hold",to:"hold"}]},
+scuttle:{e:"🐀",t:"Admiral Whiskers",x:[
+ "It's a rat. A very small rat. Wearing a very small pirate hat. “Admiral Whiskers,” he squeaks. “I know where your hat is. I know <i>why</i> it was taken. I know that the eggs hatch at sunset.”",
+ "He stares at you. “I'll tell you everything. But I don't work for free.”"],
+ c:[{t:"Pay him 1 doubloon",minGold:1,to:"whisk_paid"},{t:"Give him the biscuit crumbs",need:"crumbs",to:"whisk_crumbs"},{t:"Promise to name your first child “Rubber Chicken”",to:"whisk_deal"}]},
+whisk_paid:{e:"🪙",t:"A Deal Is a Deal",gold:-1,set:["h_whisk","f_whisk","secret"],x:[
+ "Admiral Whiskers bites the doubloon. It tastes like money. He squeaks with approval.",
+ "“The seagull isn't a thief,” he whispers. “It's a nest. A <i>very</i> fancy nest. Whatever you do, don't just grab the hat. And if you need an admiral, whistle for me. I'm very small, but I'm very loud.”"],
+ c:[{t:"Head back on deck",to:"deck"}]},
+whisk_crumbs:{e:"🍪",t:"The Crumb Payment",take:["crumbs"],set:["h_whisk","f_whisk","secret"],x:[
+ "The Admiral eats the crumbs one grain at a time, weeping softly. “Nobody's ever fed me,” he whispers. “I'll tell you everything.”",
+ "“The seagull isn't a thief,” he says. “It's a nest. A <i>very</i> fancy nest. Eggs hatch at sunset. Whatever you do, don't just grab the hat.” He salutes. “You're all right.”"],
+ c:[{t:"Head back on deck",to:"deck"}]},
+whisk_deal:{e:"🐔",t:"The Rubber Chicken Pact",set:["h_whisk","secret"],x:[
+ "Admiral Whiskers considers this. “A child named Rubber Chicken,” he mutters. “It's... acceptable.” He scribbles it on a tiny contract in tiny handwriting.",
+ "“The seagull isn't a thief,” he squeaks. “It's a nest. Eggs hatch at sunset. Don't just grab the hat.” He folds the contract and puts it in his hat. He expects you to remember this."],
+ c:[{t:"Head back on deck",to:"deck"}]},
+
+workshop:{e:"🔧",t:"The Professor's Workshop",x:[
+ "The Professor's workshop smells like burnt toast and lightning. Professor Barnaby Bubbles has no eyebrows, no ceiling above his workbench, and an alarming amount of confidence.",
+ "“Welcome!” he shouts. “Don't touch the green lever! Or the red one! Or the blue one! The yellow one is fine!” He holds up a spoon attached to a rope.",
+ "“For the island, you need THIS! The <b>Grappling Spoon</b>! A spoon, a hook, a rope, and a button I will not discuss. Nothing on that island can be climbed without it. Would you like to test it?”"],
+ c:[{t:"Test the Grappling Spoon (what could go wrong?)",to:"test_gadget"},{t:"Politely decline to test it",to:"skip_gadget"}]},
+test_gadget:{e:"💥",t:"What Could Go Wrong",give:["spoon"],gold:1,set:["h_prof","f_prof"],x:[
+ "You press the button. <i>FWOOSH.</i> The spoon rockets through the ceiling, takes you with it, flies in a graceful loop and drops you into a barrel of rubber chickens.",
+ "“EXCELLENT TEST!” cries the Professor. “Only mildly on fire!” He pays you one doubloon in hazard pay and hands you the spoon. “If you ever need a genius, I'm your man. Please don't press the red button on it. Ever. I mean it. Not even once.”"],
+ pets:{parrot:"{pet} repeats, “DON'T PRESS THE RED BUTTON.” You file this under Things You Will Definitely Think About Later.",crab:"{pet} is wearing a tiny singed hat and looks furious about it.",goat:"{pet} tries to eat the spoon. The spoon is not edible. {pet} appears personally betrayed."},
+ c:[{t:"Climb out of the barrel and back on deck",to:"deck"}]},
+skip_gadget:{e:"🥄",t:"Safety First",give:["spoon"],set:["h_prof"],x:[
+ "“Pity,” says the Professor. “The last volunteer made a lovely sound.”",
+ "He hands you the Grappling Spoon, along with a warning about a red button he does not explain. “It climbs anything,” he says. “Mostly.”"],
+ c:[{t:"Head back on deck",to:"deck"}]},
 
 end_nap:{end:true,e:"😴",t:"The Great Nap",x:[
  "You pull the blanket over your head and decide that today is not your problem.",
@@ -210,46 +294,49 @@ end_nap:{end:true,e:"😴",t:"The Great Nap",x:[
  "<b>The Pirate Who Slept Through Everything.</b> It's a living."]},
 
 docks:{e:"🧭",t:"Mission: Crab Island",x:[
- "You rush to the Captain with your news. “SEAGULL STEVE!” she bellows. “I should have known! That bird has wanted my hat ever since the Incident with the Sandwich!”",
- "She points a hook-shaped finger (it's a finger-shaped hook) toward a speck of green on the horizon. “Crab Island. Get that hat back, {name}. How you get there is your own business.”",
+ "You report to the Captain with everything you've learned. She listens, nods, and slams the table. “SEAGULL STEVE!” she bellows. “I should have known! That bird has wanted my hat ever since the Incident with the Sandwich!”",
+ "She points toward a speck of green on the horizon. “Crab Island. Get that hat back, {name}. How you get there is your own business.”",
  "The crew stares at you with hope and mild terror. There are three ways to reach the island..."],
  c:[{t:"Take the little rowboat (sensible)",to:"row"},{t:"Swim there (athletic!)",to:"swim"},{t:"Get fired out of the cannon (extremely not sensible)",to:"cannon"}]},
-row:{e:"🚣",t:"A Visitor From the Deep",x:[
+row:{e:"🚣",t:"The Long Row",x:[
  "You row for a long while. Rowing is mostly arm pain with scenery.",
- "Halfway to the island, the water bubbles. A tentacle rises. Then another. Then one huge, sad, googly eye. It's Kevin, the sea monster: forty feet of tentacle and anxiety.",
- "“Please don't scream,” says Kevin. “Everyone screams. I'm very sensitive.”"],
- pets:{parrot:"{pet} screams anyway. “KEVIN! KEVIN! {NAME} IS SCARED!” Kevin flinches.",crab:"{pet} waves a claw. Kevin waves back a tentacle. They are instantly best friends.",goat:"{pet} tries to eat the tentacle. Kevin giggles. It tickles."},
- c:[{t:"🎲 Tell Kevin your best joke (60% chance it lands)",chance:.6,win:"kevin_joke",lose:"kevin_sad"},{t:"Offer Kevin the biscuit crumbs",need:"crumbs",to:"kevin_crumbs"},{t:"Scream (everyone else does)",to:"scream"}]},
-kevin_joke:{e:"🐙",t:"Kevin Laughs",set:["kevin"],x:[
- "You tell Kevin: “Why did the pirate bring a ladder? To reach the high seas!” Kevin laughs so hard he makes a small wave. “I love that!” he sniffles. “Nobody tells me jokes. They scream.”",
- "Kevin gives you a lift to Crab Island on his head. “Whistle if you need me,” he says. “I'll be here. I'm always here. Alone. With my thoughts.” You make a mental note to be nice to Kevin."],
- c:[{t:"Hop onto the beach",to:"island"}]},
-kevin_crumbs:{e:"🍪",t:"Kevin Cries (Happy Tears)",set:["kevin"],x:[
- "Kevin sniffs the crumbs. “Biscuit crumbs? For me?” His eye fills with tears. “Nobody's ever given me anything. Except a headache.”",
- "He eats the crumbs, one tiny bite at a time, and carries you to Crab Island on his head. “Whistle if you need me,” he says. You nod. You mean it."],
- c:[{t:"Hop onto the beach",to:"island"}]},
-kevin_sad:{e:"😢",t:"The Joke That Sank",gold:-1,x:[
- "Your joke does not land. Kevin stares at you. A single tear rolls down his tentacle. “That wasn't funny,” he whispers.",
- "He cries so hard that a wave pushes your boat onto the beach, soaking you. A doubloon slips from your pocket into the sea. Kevin sinks back below the water, sniffling. Maybe you can apologise later."],
- c:[{t:"Squelch onto the beach",to:"island"}]},
-scream:{e:"😱",t:"The Eleven-Minute Scream",x:[
- "You scream. Kevin screams back, louder. You scream higher. He screams lower. This lasts eleven minutes. {pet} joins in. A passing whale gives you a one-star review.",
- "Finally Kevin gets bored and goes home. Your voice is gone for a week. You arrive at Crab Island hoarse, and a little ashamed."],
- c:[{t:"Croak onto the beach",to:"island"}]},
+ "Eventually you reach a reef with only one gap wide enough for a boat. The water is dead calm. Suspiciously calm."],
+ c:[{t:"Row toward the gap",to:"reef"}]},
 swim:{e:"🏊",t:"The Trouserless Swim",set:["pantsless"],x:[
  "You dive into the sea. It is cold, wet, and surprisingly salty. You swim for a long time.",
  "Then a flock of seagulls swoops down, steals your trousers, and flies away laughing.",
- "You arrive at Crab Island with seaweed in your hair, sand in your socks, and absolutely no trousers."],
+ "You reach a reef with seaweed in your hair, sand in your socks, and absolutely no trousers."],
  pets:{parrot:"“{NAME} HAS NO PANTS! {NAME} HAS NO PANTS!” shouts {pet} from above, helpfully.",crab:"{pet} scuttled along the seabed and arrived first. Typical crab.",goat:"{pet} swam too, which goats are not supposed to do. They look furious about it."},
- c:[{t:"Stagger onto the beach with dignity (not much)",to:"island"}]},
+ c:[{t:"Paddle toward the only gap in the reef",to:"reef"}]},
 cannon:{e:"💥",t:"The Cannon Plan",gold:1,x:[
  "The crew loads you into the big cannon. “Aim for the island!” says the Captain. “Or the general area!”",
- "There is a very loud <i>FWOOMP</i>. You fly through the air like a cow. A graceful cow. You land headfirst in a coconut tree and hang there upside down, covered in coconuts.",
- "A coconut cracks open on your head. Inside is a shiny doubloon. (Ow.)"],
- c:[{t:"Climb down from the tree",to:"island"}]},
+ "There is a very loud <i>FWOOMP</i>. You fly through the air like a cow. A graceful cow. You overshoot the island by a mile and land on a slippery, round, rubbery rock.",
+ "A coconut that came with you cracks open on your head. Inside is a shiny doubloon. (Ow.) The rock is not a rock."],
+ c:[{t:"Look down",to:"reef"}]},
+reef:{e:"🐙",t:"A Visitor From the Deep",x:[
+ "The water bubbles. A tentacle rises. Then another. Then one huge, sad, googly eye. It's Kevin, the sea monster: forty feet of tentacle and anxiety. He is guarding the only gap in the reef.",
+ "“Please don't scream,” says Kevin. “Everyone screams. I'm very sensitive. Nobody gets through my reef unless they're polite.”"],
+ pets:{parrot:"{pet} screams anyway. “KEVIN! KEVIN! {NAME} IS SCARED!” Kevin flinches.",crab:"{pet} waves a claw. Kevin waves back a tentacle. They are instantly best friends.",goat:"{pet} tries to eat the tentacle. Kevin giggles. It tickles."},
+ c:[{t:"🎲 Tell Kevin your best joke (60% chance it lands)",chance:.6,win:"kevin_joke",lose:"kevin_sad"},{t:"Offer Kevin the biscuit crumbs",need:"crumbs",to:"kevin_crumbs"},{t:"Scream (everyone else does)",to:"scream"}]},
+kevin_joke:{e:"🐙",t:"Kevin Laughs",set:["f_kevin"],x:[
+ "You tell Kevin: “Why did the pirate bring a ladder? To reach the high seas!” Kevin laughs so hard he makes a small wave. “I love that!” he sniffles. “Nobody tells me jokes. They scream.”",
+ "Kevin lifts you through the gap on his head. “Whistle if you need me,” he says. “I'll be here. I'm always here. Alone. With my thoughts.” You make a mental note to be nice to Kevin."],
+ c:[{t:"Hop onto the beach",to:"island"}]},
+kevin_crumbs:{e:"🍪",t:"Kevin Cries (Happy Tears)",take:["crumbs"],set:["f_kevin"],x:[
+ "Kevin sniffs the crumbs. “Biscuit crumbs? For me?” His eye fills with tears. “Nobody's ever given me anything. Except a headache.”",
+ "He eats the crumbs, one tiny bite at a time, and carries you through the gap on his head. “Whistle if you need me,” he says. You nod. You mean it."],
+ c:[{t:"Hop onto the beach",to:"island"}]},
+kevin_sad:{e:"😢",t:"The Joke That Sank",gold:-1,x:[
+ "Your joke does not land. Kevin stares at you. A single tear rolls down his tentacle. “That wasn't funny,” he whispers.",
+ "He cries so hard that a wave pushes you through the gap and onto the beach, soaking you. A doubloon slips from your pocket into the sea. Kevin sinks back below the water, sniffling. Maybe you can apologise later."],
+ c:[{t:"Squelch onto the beach",to:"island"}]},
+scream:{e:"😱",t:"The Eleven-Minute Scream",x:[
+ "You scream. Kevin screams back, louder. You scream higher. He screams lower. This lasts eleven minutes. {pet} joins in. A passing whale gives you a one-star review.",
+ "Finally Kevin gets bored and lets you through, mostly to make you stop. Your voice is gone for a week. You arrive on the beach hoarse, and a little ashamed."],
+ c:[{t:"Croak onto the beach",to:"island"}]},
 
 island:{e:"🏝️",t:"Crab Island",x:[
- "Crab Island is hot, sandy and extremely snappy. A hundred crabs line the beach in a tiny angry army. In front stands King Crabsworth, wearing a bottle-cap crown and an expression of deep disappointment.",
+ "Crab Island is hot, sandy and extremely snappy. A hundred crabs line the beach in a tiny angry army. In front stands King Crabsworth, wearing a bottle-cap crown and an expression of deep disappointment. Behind him is the only bridge into the island's jungle.",
  "“Halt!” he clicks. “To pass, you must defeat me in a PUN DUEL. Or give me something that proves your worth.”"],
  cond:[{flag:"pantsless",text:"The crabs glance at your lack of trousers. A hush falls. “Bold,” whispers one crab. “Breezy,” whispers another."}],
  c:[{t:"Accept the pun duel",to:"pun"},{t:"Offer the Rubber Chicken as proof of your worth",need:"chicken",to:"gift"},{t:"Sneak past while they're distracted by a butterfly",to:"sneak"}]},
@@ -257,91 +344,115 @@ pun:{e:"🎤",t:"The Pun Duel",x:[
  "“Begin,” says King Crabsworth. The crabs clack their claws. You take a deep breath. You have one chance to win their hearts with wordplay."],
  log:"Write your very best sea or crab pun, and explain it to a crab who doesn't get it.",
  c:[{t:"🎲 “Don't be so crabby, I'm just trying to shell-ebrate!” (70% to win)",chance:.7,win:"pun_win",lose:"pun_lose"},{t:"“I'd tell you a crab joke, but you'd find it a bit shellfish.” (a guaranteed groan)",to:"pun_win"},{t:"“You're the best-looking crustacean I've ever seen!” (flattery)",to:"pun_lose"}]},
-pun_win:{e:"👑",t:"Honorary Crab Admiral",give:["crown"],x:[
- "The crabs burst into thunderous clicking. King Crabsworth wipes a tear. “That is the finest pun I have ever heard.” He lifts a tiny shell crown off his own head and hands it to you. “Honorary Crab Admiral. Command us, if you need us.”",
- "You gain the <b>Crab Crown</b>. You are, officially, a very small royalty."],
- c:[{t:"Head into the jungle",to:"jungle"}]},
+pun_win:{e:"👑",t:"Honorary Crab Admiral",give:["crown"],gold:2,set:["f_crab"],x:[
+ "The crabs burst into thunderous clicking. King Crabsworth wipes a tear. “That is the finest pun I have ever heard.” He lifts a tiny shell crown off his own head and hands it to you. “Honorary Crab Admiral. Command us, if you need us. And take this.” He slips you two doubloons from a pouch.",
+ "You gain the <b>Crab Crown</b> and 2 doubloons. You are, officially, a very small royalty."],
+ c:[{t:"Cross the bridge into the jungle",to:"jungle"}]},
 pun_lose:{e:"🦀",t:"The Crabs Are Not Impressed",gold:-1,x:[
  "Silence. A single crab coughs. King Crabsworth sighs deeply. “That was not a pun. That was a sentence.”",
- "The crabs pinch your boot and carry you, with great ceremony, to the jungle trail. As a fine, they take one doubloon. “For the arts,” says the King."],
+ "The crabs pinch your boot and carry you, with great ceremony, across the bridge. As a fine, they take one doubloon. “For the arts,” says the King."],
  c:[{t:"Limp into the jungle",to:"jungle"}]},
-gift:{e:"🐔",t:"The Great Squeaking One",take:["chicken"],give:["crown"],x:[
+gift:{e:"🐔",t:"The Great Squeaking One",take:["chicken"],give:["crown"],set:["f_crab"],x:[
  "You hold up the Rubber Chicken. The crabs gasp. They have never seen one. King Crabsworth squeezes it once. It squeaks. The crabs fall to their knees. “THE GREAT SQUEAKING ONE!” they cry.",
  "They place the chicken on a tiny throne and give you the <b>Crab Crown</b> as a thank-you. You lose the chicken, but you've gained an army. Sort of."],
- c:[{t:"Head into the jungle",to:"jungle"}]},
+ c:[{t:"Cross the bridge into the jungle",to:"jungle"}]},
 sneak:{e:"🦋",t:"The Butterfly Distraction",x:[
  "You tiptoe past the crabs. The butterfly is very interesting. Hundreds of tiny eyes follow it, mesmerised.",
- "You make it through the crab lines and onto the jungle trail. One crab looks at you. You look at the crab. The crab shrugs. Crabs have seen worse."],
+ "You make it across the bridge and into the jungle. One crab looks at you. You look at the crab. The crab shrugs. Crabs have seen worse. You can't help feeling you missed a chance to make a friend."],
  c:[{t:"Head into the jungle",to:"jungle"}]},
 
-jungle:{e:"🌴",t:"The Jungle Fork",x:[
- "The jungle is hot, sticky, and full of noises you hope are birds. You come to a fork in the path.",
- "To the left, a cave hums with strange echoes. To the right, there's the smell of a campfire and the sound of a very enthusiastic sea shanty. Above you, a very tall tree waves at you invitingly."],
- c:[{t:"Take the left path to the humming cave",to:"cave"},{t:"Take the right path toward the shanty",to:"camp"},{t:"Climb the tall tree and look around",to:"tree"}]},
+jungle:{e:"🌴",t:"The Jungle Crossroads",x:[
+ "The jungle is hot, sticky, and full of noises you hope are birds. Several paths wind away from a clearing.",
+ "A tent made of old sails flaps to the east, glowing faintly. From the west you hear a very enthusiastic sea shanty. A cave hums to the north. A very tall tree waves at you. And somewhere beyond, a rocky path leads toward a tall spire. You'll need <b>directions from the shanty camp</b> and <b>a reading from the tent</b> before the path will make any sense."],
+ c:[{t:"Visit the glowing tent",to:"tent",doneFlag:"route_madame"},{t:"Follow the shanty to the camp",to:"camp",doneFlag:"route_dave"},{t:"Explore the humming cave (optional)",to:"cave",doneFlag:"v_cave"},{t:"Climb the tall tree (optional)",to:"tree",doneFlag:"v_tree"},{t:"Take the rocky path to the spire",to:"nest_base",needFlags:["route_dave","route_madame"]}]},
 tree:{e:"🌳",t:"The Tallest Tree",x:[
- "You climb the tree. {pet} follows with varying levels of enthusiasm. At the top you can see a tall rock spire in the distance, with something round and hat-like on top. Without help, you can't make out the path to it."],
+ "You climb the tree. {pet} follows with varying levels of enthusiasm. At the top you can see a tall rock spire in the distance, with something round and hat-like on top. Without help, you can't make out much detail."],
  c:[{t:"Use the Telescope with One Working End",need:"scope",to:"tree_scope"},{t:"Climb back down",to:"jungle"}]},
-tree_scope:{e:"🔭",t:"The Working End",x:[
+tree_scope:{e:"🔭",t:"The Working End",gold:2,set:["v_tree"],x:[
  "You raise the telescope to your eye. Blackness. You turn it around. Perfectly clear! You can see the spire, and a hidden path winding straight to its foot.",
- "You memorise the route, climb down, and follow it."],
- c:[{t:"Follow the hidden path",to:"nest_approach"}]},
+ "You also spot something shiny in a bird's nest on a lower branch. You climb over and find two doubloons and a very confused parrot who isn't Gerald."],
+ c:[{t:"Climb back down",to:"jungle"}]},
 cave:{e:"🦇",t:"The Cave of Embarrassing Echoes",x:[
  "The cave is dark, damp, and echoes with a friendly menace. You say, “Hello?”",
  "The cave answers: “<i>I still sleep with a night-light.</i>” Wait. That's not what you said.",
  "“Hello?” you try again. The cave replies: “<i>I'm scared of balloons.</i>” You realise the cave isn't echoing your words. It's echoing your secrets. {pet} backs away slowly.",
- "At the far end is a heavy door with a sticky keyhole, and a narrow gap beside it."],
+ "At the far end is a small door with a sticky keyhole."],
  log:"What embarrassing things does the cave echo back to you? Write at least three echoes.",
- c:[{t:"Use the Suspiciously Sticky Key on the door",need:"key",to:"nest_approach"},{t:"Squeeze through the narrow gap",to:"squeeze"},{t:"Go back to the jungle fork",to:"jungle"}]},
-squeeze:{e:"😬",t:"Stuck!",x:[
- "You squeeze into the gap. You get halfway. Then you get stuck. Your top half is in the next chamber. Your bottom half is in the cave.",
- "The cave echoes your whimpering: “<i>I'm not stuck. I'm just thinking.</i>”"],
- c:[{t:"Use the Hat-Shaped Pie to grease the gap",need:"pie",to:"squeeze_pie"},{t:"Wait for the tide to help",to:"squeeze_wait"}]},
-squeeze_pie:{e:"🥧",t:"Greased Lightning",take:["pie"],x:[
- "You smear the pie on the rock. It's sticky and gravy-ish and smells delicious. You pop through like a cork from a bottle, covered in crumbs and gravy.",
- "You will never forget how good that pie smelled. Neither will {pet}, who is now licking you."],
- c:[{t:"Wipe off the gravy and keep going",to:"nest_approach"}]},
-squeeze_wait:{e:"🌊",t:"The Tide Helps",gold:-1,x:[
- "You wait. And wait. Finally the tide rises, pushes you through the gap with a loud <i>POP</i>, and deposits you in a puddle on the far side.",
- "A doubloon floats away. Your dignity does too."],
- c:[{t:"Squelch onward",to:"nest_approach"}]},
+ c:[{t:"Use the Suspiciously Sticky Key on the door",need:"key",to:"cave_alcove"},{t:"Leave quickly before it says something worse",to:"jungle"}]},
+cave_alcove:{e:"🪙",t:"The Pirate Piggy Bank",gold:3,set:["v_cave"],x:[
+ "The key turns with a wet squelch. Behind the door is a tiny alcove filled with doubloons, a single tiny chair, and a sign: “IF YOU'RE READING THIS, I FORGOT TO COME BACK.”",
+ "You take three doubloons. The cave echoes, quietly, <i>“Take care of them.”</i> It sounds almost sincere."],
+ c:[{t:"Back out to the crossroads",to:"jungle"}]},
 
 camp:{e:"📚",t:"The Dreaded Dave's Book Club",x:[
  "In a clearing, twelve fierce pirates sit in a circle with books on their laps. At the front stands The Dreaded Dave, six feet five, with a magnificent moustache and a tiny pair of reading glasses.",
  "“Welcome to Book Club,” he says. “This month: <i>Charlotte's Web</i>. Please be nice. Last time Pete cried.”"],
  c:[{t:"Ask Dave if he's seen a seagull with a monocle",to:"dave_ask"},{t:"Quietly back away",to:"jungle"}]},
 dave_ask:{e:"🧔",t:"Dave Wants Something",x:[
- "“Seagull Steve,” says Dave, shaking his head. “He's been after the Captain's hat for years. I know where he nests. But I don't give directions for free.”",
- "He narrows his eyes. “I'll tell you where, if you beat me in a dance-off. Or if you bring me a hat-shaped pie. I love pie.”"],
+ "“Seagull Steve,” says Dave, shaking his head. “He's been after the Captain's hat for years. I know the way to his spire. But I don't give directions for free.”",
+ "He narrows his eyes. “I'll tell you the way if you beat me in a dance-off. Or if you bring me a hat-shaped pie. I love pie.”"],
  c:[{t:"Give Dave the Hat-Shaped Pie",need:"pie",to:"dave_pie"},{t:"Challenge Dave to a dance-off",to:"dave_dance"},{t:"Back away slowly",to:"jungle"}]},
-dave_pie:{e:"🥧",t:"The Pie Wins",take:["pie"],x:[
+dave_pie:{e:"🥧",t:"The Pie Wins",take:["pie"],gold:1,set:["route_dave","f_dave"],x:[
  "Dave bites the pie. He closes his eyes. A tear rolls down his cheek. “This... this is the finest pie I've had since my mother's.”",
- "He gives you directions: “Follow the shell path behind the camp. It'll take you straight to Steve's spire. Tell him Dave says hi. He'll hate that.”"],
- c:[{t:"Follow the shell path",to:"nest_approach"}]},
+ "He gives you directions: “Follow the rocky path behind the camp. Tell Steve Dave says hi. He'll hate that.” He slips you a doubloon. “And if you ever need a crew, we're only a shanty away.”"],
+ c:[{t:"Return to the crossroads",to:"jungle"}]},
 dave_dance:{e:"🕺",t:"The Dance-Off",x:[
  "The book club clears a circle. A fiddle starts up. Dave cracks his knuckles. “Prepare to be out-grooved,” he says.",
  "You take a deep breath. {pet} plays hype-person from the sidelines."],
  c:[{t:"🎲 Bust out your absolute best moves (60% chance)",chance:.6,win:"dance_win",lose:"dance_lose"},{t:"Decline politely",to:"jungle"}]},
-dance_lose:{e:"🌀",t:"The Windmill Sneeze",x:[
+dance_lose:{e:"🌀",t:"The Windmill Sneeze",set:["route_dave"],x:[
  "You attempt a move you saw once, in a dream. It's called The Windmill Sneeze. Your leg goes one way, your arm the other. You spin, trip, and land face-first in a pie. (Not the pie. A different pie.)",
- "Dave pats your back. “Good effort. Come to Book Club anyway.” Out of pity, he tells you the way: “Follow the shell path.”"],
- c:[{t:"Follow the shell path (smelling of pie)",to:"nest_approach"}]},
+ "Dave pats your back. “Good effort. Come to Book Club anyway.” Out of pity, he tells you the way: “Follow the rocky path.”"],
+ c:[{t:"Return to the crossroads (smelling of pie)",to:"jungle"}]},
 dance_win:{e:"💃",t:"You Out-Groove The Dreaded Dave",x:[
  "You spin. You dip. You do a move that looks like a crab doing laundry. The book club erupts. Dave stands motionless, then slowly lifts his glasses and says, “That... was beautiful.”",
  "“I have never lost a dance-off,” he whispers. “Join my crew, {name}. I need someone with your... flair. We're called The Moderately Terrifying.”"],
- c:[{t:"Join Dave's crew (forget the hat)",to:"end_dance"},{t:"Politely decline and ask for directions to the spire",to:"nest_approach"}]},
+ c:[{t:"Join Dave's crew (forget the hat)",to:"end_dance"},{t:"Politely decline and ask for directions to the spire",to:"dance_decline"}]},
+dance_decline:{e:"🤝",t:"Respect Between Dancers",set:["route_dave","f_dave"],x:[
+ "Dave nods slowly. “A true artist doesn't need a crew. A true artist needs a rocky path.” He points you the right way. “If you ever want to dance again, my book club meets Tuesdays.”"],
+ c:[{t:"Return to the crossroads",to:"jungle"}]},
 end_dance:{end:true,e:"💃",t:"Dance Floor Legend",x:[
  "You join The Dreaded Dave's crew. The Moderately Terrifying are, in fact, quite terrifying at dance-offs and mildly scary at everything else.",
  "You become first mate, famous for the Crab Laundry spin. The crew holds Book Club every Tuesday. The Wobbling Pickle sails home without a hat, but with a letter: “Hat found. Don't care. Please send snacks.”",
  "Captain Betty eventually wears a bucket. She says it looks fine. It does not."]},
 
+tent:{e:"🔮",t:"Madame Mizzenmast",x:[
+ "The tent is made of old sails and smells of lavender and wet dog. Inside sits Madame Mizzenmast, a tiny old woman in a hat that is also a teapot. In front of her glows a crystal coconut.",
+ "“Ah. {name},” she says, before you've said a thing. “You will be wet. You will be confused. You will make an excellent decision and a questionable one, and they will be the same decision.”",
+ "She holds out one wrinkled hand. “A reading costs one doubloon. Or a royal favour. Or you could sweep the floor. It is very dusty.”"],
+ c:[{t:"Pay her 1 doubloon",minGold:1,to:"tent_pay"},{t:"Show her the Crab Crown",need:"crown",to:"tent_crown"},{t:"Offer to sweep her floor",to:"tent_sweep"}]},
+tent_pay:{e:"🪙",t:"A Paid Prophecy",gold:-1,set:["route_madame","f_madame","knows_nest"],x:[
+ "Madame Mizzenmast peers into the crystal coconut. It crackles. “I see a seagull. I see a hat. I see twelve very small seagulls, very soon. The hat is not treasure to him, {name}. It is a <i>cradle</i>.”",
+ "She takes your hand. “Be gentle, or be loud, but choose one. And know that you have a friend in this tent.” She gives you a mint. It is very strong."],
+ log:"Madame Mizzenmast gives a prophecy that is completely true but not very helpful. Write it (three sentences).",
+ c:[{t:"Return to the crossroads",to:"jungle"}]},
+tent_crown:{e:"👑",t:"A Royal Reading",set:["route_madame","f_madame","knows_nest"],x:[
+ "“A CROWN!” Madame Mizzenmast leaps up so fast her teapot hat nearly falls off. “A royal reading is free, and a friend for life!”",
+ "She peers into the coconut. “I see a seagull. I see a hat. I see twelve eggs. The hat is not treasure to him. It is a <i>cradle</i>. Be gentle, or be loud, but choose one.” She pats your hand. “I'll be seeing you. I always do.”"],
+ log:"Madame Mizzenmast gives a prophecy that is completely true but not very helpful. Write it (three sentences).",
+ c:[{t:"Return to the crossroads",to:"jungle"}]},
+tent_sweep:{e:"🧹",t:"The Dustiest Floor",set:["route_madame","knows_nest"],x:[
+ "You sweep. And sweep. Dust the colour of old socks rises in clouds. {pet} sneezes. You sweep for an hour. Madame Mizzenmast watches approvingly.",
+ "“Good enough,” she says, finally. She peers into the crystal coconut. “Seagull. Hat. Eggs. The hat is a <i>cradle</i>. Be careful.” She waves you away. “I'm not your friend yet. But the floor looks wonderful.”"],
+ c:[{t:"Return to the crossroads (dusty)",to:"jungle"}]},
+
+nest_base:{e:"⛰️",t:"The Foot of the Spire",x:[
+ "You reach the foot of a tall, smooth rock spire. It goes up and up and up, ending in a nest the size of a bathtub. Nothing grows on the rock. There are no handholds. Not one.",
+ "How are you going to get up there?"],
+ c:[{t:"Use the Grappling Spoon",need:"spoon",to:"nest_approach"},{t:"Try climbing with your bare hands",to:"slip"}]},
+slip:{e:"🤕",t:"Four Steps Up",gold:-1,x:[
+ "You climb four steps up. You slide down three. A seagull laughs from somewhere above. You try again and slide down faster, landing in a bush.",
+ "A doubloon drops from your pocket and rolls into a crack. Maybe there's a better way."],
+ c:[{t:"Look for a better way",to:"nest_base"}]},
 nest_approach:{e:"🪹",t:"Seagull Steve's Spire",x:[
- "You reach the foot of a tall rock spire. At the top is a nest. It is enormous, woven from seaweed, twigs and... the Hat of Destiny. A silky, feathered, brim-flapping hat, packed with eggs.",
+ "The Grappling Spoon hooks into the rock with a satisfying <i>clink</i>. You climb. {pet} climbs too. At the top is a nest. It is enormous, woven from seaweed, twigs and... the Hat of Destiny. A silky, feathered, brim-flapping hat, packed with eggs.",
  "Seagull Steve stands guard, wearing a tiny monocle. “Ah,” he says, in a voice like a tea-drinking aristocrat. “I wondered when someone would arrive. Do come up. Mind the guano.”",
- "Twelve speckled eggs are nestled inside the hat. A map with a big X peeks out from the lining."],
- c:[{t:"Talk to Steve",to:"talk"},{t:"Grab the hat and run",to:"grab"},{t:"Swap the hat for the Rubber Chicken",need:"chicken",to:"end_fair"},{t:"Order the crabs to take the hat",need:"crown",to:"end_crab"},{t:"Whistle for Kevin",needFlag:"kevin",to:"end_kevin"}]},
+ "Twelve speckled eggs are nestled inside the hat. A map with a big X peeks out from the lining. What will you do?"],
+ c:[{t:"Talk to Steve",to:"talk"},{t:"Grab the hat and run",to:"grab"},{t:"Swap the hat for the Rubber Chicken",need:"chicken",to:"end_fair"},{t:"Order the crabs to take the hat",need:"crown",to:"end_crab"},{t:"Whistle for Kevin",needFlag:"f_kevin",to:"end_kevin"},{t:"Press the red button on the Grappling Spoon",need:"spoon",to:"end_moon"},{t:"Call in every favour: bring the whole crew",needFlags:["f_bart","f_sam","f_whisk","f_prof","f_kevin","f_crab","f_dave","f_madame"],to:"end_alliance"}]},
 talk:{e:"🪶",t:"Steve Explains",x:[
- "“I did not steal the hat for gold,” says Steve, adjusting his monocle. “I needed a nest. The Captain's hat is the softest, fanciest, most seagull-friendly object in the sea. And I have twelve eggs, due to hatch tonight.”",
+ "“I did not steal the hat for gold,” says Steve, adjusting his monocle. “I needed a nest. The Captain's hat is the softest, fanciest, most seagull-friendly object in the sea. And I have twelve eggs, due to hatch at sunset.”",
  "He sniffles. “I'm not a villain. I'm a parent. With excellent taste.”"],
+ cond:[{flag:"knows_nest",text:"You nod. You already knew. Madame Mizzenmast and Admiral Whiskers tried to tell you. Steve notices your gentle look and relaxes. “You understand,” he says, wondering."}],
  log:"Write Steve's speech explaining why he took the hat (three sentences, in his posh voice).",
  c:[{t:"Offer to help carry the nest and the eggs back to the ship",to:"end_nest"},{t:"Offer the Rubber Chicken as a replacement nest",need:"chicken",to:"end_fair"},{t:"Back away from the nest",to:"nest_approach"}]},
 grab:{e:"🏃",t:"Grab and Run!",x:[
@@ -375,18 +486,40 @@ end_kevin:{end:true,e:"🐙",t:"Best Friend of a Sea Monster",x:[
  "You whistle. The sea rumbles. Kevin rises from the waves like a very large, very emotional island. “You called?” he whispers. “Nobody's ever called me.”",
  "Kevin scoops the spire with a tentacle, plucks the hat, hands it to you gently, and returns the nest and eggs to Steve. Everyone is somehow happy.",
  "Kevin carries you home across the sea, faster than any ship. The crew cheers. Captain Betty hugs you. Kevin cries. “I've never been hugged,” he sobs. “Neither has the Captain,” you say. She hugs him too.",
- "You and Kevin become the most famous duo on the Seven Seas. The <i>Wobbling Pickle</i> follows, still slightly faster than a bathtub named Greg."]}
+ "You and Kevin become the most famous duo on the Seven Seas. The <i>Wobbling Pickle</i> follows, still slightly faster than a bathtub named Greg."]},
+end_moon:{end:true,e:"🌙",t:"One Small Step for Pirates",x:[
+ "You press the red button. You were told not to. You pressed it anyway. You hear a very quiet <i>click</i>.",
+ "The Grappling Spoon becomes a rocket. Then it becomes a very large rocket. Then it becomes the largest spoon-shaped rocket in recorded history. You, {pet}, Steve, twelve eggs and the Hat of Destiny shoot into the sky.",
+ "You land on the moon. It is made entirely of biscuits. The Captain's map was a map of the moon all along. Steve, who is not the villain here, is thrilled: the moon is an excellent nest.",
+ "Professor Bubbles shouts from a tiny dot far below: “I TOLD YOU NOT TO PRESS IT!” Then, quieter: “...Is it good?” “It's delicious,” you reply."]},
+end_alliance:{end:true,e:"🎉",t:"The Grand Alliance",x:[
+ "You take a deep breath, raise the Grappling Spoon and whistle. The sound echoes across the island.",
+ "And then everyone comes. Bartholomew arrives with a hat-shaped pie the size of a door. Squid-Eye Sam, patches off, spots everything and shouts about it. Admiral Whiskers marches in with a squadron of rats in tiny hats. Professor Bubbles arrives on something that is on fire. Kevin rises from the sea. King Crabsworth leads the crab army. The Dreaded Dave's book club arrives mid-chapter. Madame Mizzenmast strolls in last. “I knew you'd call,” she says. “I always know.”",
+ "Steve looks at the crowd. The crowd looks at Steve. Dave clears his throat and begins reading <i>Charlotte's Web</i> to the eggs. By the time he reaches the second chapter, everyone is crying, including Steve.",
+ "Together you build a bigger, better, fancier nest from the biscuit pie crust and Sam's spare eyepatches. Steve returns the hat to Captain Betty, and Betty, tears streaming down her face, adopts the whole family.",
+ "The treasure map leads to the Golden Biscuit, which turns out to be a pantry big enough to feed everyone forever. The party lasts three days. Greg the bathtub is invited. He declines. He is, after all, a bathtub.",
+ "<b>You didn't just find the hat, {name}. You found a crew.</b>"]}
 };
 
 /* ---------------- STATE ---------------- */
-const KEY="pirate-cyoa-v1";
+const KEY="pirate-cyoa-v2";
 let G=null;   // current run
-let P={endings:[],log:[],last:null};  // persistent
-try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);if(o)P=Object.assign(P,o)}}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({endings:P.endings,log:P.log,last:G}))}catch(e){}};
-const newGame=(name,pet)=>({name:(name||"Pirate").trim().slice(0,20)||"Pirate",pet,node:"wake",items:[],gold:3,flags:{},visited:{},hist:[]});
-const snap=()=>JSON.stringify({node:G.node,items:G.items,gold:G.gold,flags:G.flags,visited:G.visited});
+let P={endings:[],log:[],last:null,board:[],journeys:[],saves:[]};
+try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);if(o&&typeof o==="object")P=Object.assign(P,o)}}catch(e){}
+["endings","log","board","journeys","saves"].forEach(k=>{if(!Array.isArray(P[k]))P[k]=[]});
+const save=()=>{try{P.last=G;localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}};
+const newGame=(name,pet)=>({name:(name||"Pirate").trim().slice(0,20)||"Pirate",pet,node:"wake",items:[],gold:3,flags:{},visited:{},hist:[],path:["wake"],scored:false});
+const snap=()=>JSON.stringify({node:G.node,items:G.items,gold:G.gold,flags:G.flags,visited:G.visited,path:G.path});
 const fill=s=>s.replace(/\{NAME\}/g,esc(G.name.toUpperCase())).replace(/\{name\}/g,esc(G.name)).replace(/\{pet\}/g,esc(PETS[G.pet].name)).replace(/\{kind\}/g,PETS[G.pet].kind);
+const allyCount=()=>Object.keys(ALLIES).filter(f=>G.flags[f]).length;
+const calcScore=()=>{const d=G.gold*10,a=allyCount()*25,b=BONUS[G.node]||0;return {gold:d,allies:a,bonus:b,total:Math.max(0,d)+a+b}};
+const fmtDate=t=>{try{return new Date(t).toLocaleDateString(undefined,{month:"short",day:"numeric"})}catch(e){return""}};
+
+/* ---------------- VIEWS ---------------- */
+let view="title";
+function show(v){view=v;["Title","Game","Log","Board","J"].forEach(n=>$("v"+n).hidden=(("v"+n)!=="v"+({title:"Title",game:"Game",log:"Log",board:"Board",journeys:"J"}[v])));window.scrollTo({top:0})}
+function backFromPanel(){if(G&&G.node&&!(N[G.node]||{}).end&&P.last){show("game")}else if(G&&G.node){show("game")}else{renderTitle();show("title")}}
+document.querySelectorAll("[data-back]").forEach(b=>b.onclick=backFromPanel);
 
 /* ---------------- TITLE ---------------- */
 let chosenPet="parrot";
@@ -396,16 +529,23 @@ function renderTitle(){
   $("endList").innerHTML=Object.entries(ENDINGS).map(([id,t])=>P.endings.includes(id)?`<span class="eb">✓ ${esc(t)}</span>`:`<span class="eb lock">? ? ?</span>`).join("");
   $("bResume").hidden=!(P.last&&P.last.node&&!(N[P.last.node]||{}).end);
   if(P.last&&P.last.name&&!$("nm").value)$("nm").value=P.last.name;
+  $("titleSaves").innerHTML=P.saves.length?`<h3>Saved journeys</h3>`+P.saves.map(s=>slotHtml(s)).join(""):"";
 }
+function slotHtml(s){return `<div class="slot"><div><b>${esc(s.label)}</b><small>${esc(s.g.name)} · ${esc(N[s.g.node].t)} · 🪙 ${s.g.gold} · saved ${fmtDate(s.when)}</small></div><div class="row" style="margin:0"><button class="btn sm" data-load="${s.id}">Continue</button><button class="btn alt sm" data-del="${s.id}">Delete</button></div></div>`}
+function slotClicks(e){
+  const l=e.target.closest("[data-load]"),d=e.target.closest("[data-del]");
+  if(l){const s=P.saves.find(x=>x.id===l.dataset.load);if(s){G=JSON.parse(JSON.stringify(s.g));chosenPet=G.pet;notes=[];save();show("game");render()}}
+  if(d){P.saves=P.saves.filter(x=>x.id!==d.dataset.del);save();renderTitle();renderJourneys()}
+}
+$("titleSaves").addEventListener("click",slotClicks);$("jSlots").addEventListener("click",slotClicks);
 $("pets").addEventListener("click",e=>{const b=e.target.closest(".pet");if(!b)return;chosenPet=b.dataset.p;renderTitle()});
-$("bStart").onclick=()=>{G=newGame($("nm").value,chosenPet);save();show("game");render()};
-$("bResume").onclick=()=>{G=P.last;chosenPet=G.pet;show("game");render()};
-function show(v){$("vTitle").hidden=v!=="title";$("vGame").hidden=v!=="game";$("vLog").hidden=v!=="log";window.scrollTo({top:0})}
+$("bStart").onclick=()=>{G=newGame($("nm").value,chosenPet);notes=[];save();show("game");render()};
+$("bResume").onclick=()=>{G=P.last;chosenPet=G.pet;notes=[];show("game");render()};
 $("bHome").onclick=()=>{renderTitle();show("title")};
 
 /* ---------------- GAME ---------------- */
 let notes=[];
-function hasItem(k){return G.items.includes(k)}
+const hasItem=k=>G.items.includes(k);
 function enter(id){
   const n=N[id];notes=[];
   if(!G.visited[id]){
@@ -413,19 +553,40 @@ function enter(id){
     (n.give||[]).forEach(k=>{if(!hasItem(k)){G.items.push(k);notes.push(`${ITEMS[k][0]} You got the <b>${ITEMS[k][1]}</b>!`)}});
     (n.take||[]).forEach(k=>{if(hasItem(k)){G.items=G.items.filter(x=>x!==k);notes.push(`${ITEMS[k][0]} You used up the <b>${ITEMS[k][1]}</b>.`)}});
     if(n.gold){G.gold+=n.gold;notes.push(`🪙 ${n.gold>0?"You found":"You lost"} ${Math.abs(n.gold)} doubloon${Math.abs(n.gold)>1?"s":""}.`)}
-    (n.set||[]).forEach(f=>G.flags[f]=1);
+    (n.set||[]).forEach(f=>{if(!G.flags[f]&&ALLIES[f])notes.push(`🤝 <b>${ALLIES[f]}</b> is now your ally!`);G.flags[f]=1});
   }
-  if(n.end&&!P.endings.includes(id)){P.endings.push(id);notes.push("🏆 New ending unlocked!")}
+  if(n.end){
+    if(!P.endings.includes(id)){P.endings.push(id);notes.push("🏆 New ending unlocked!")}
+    finishRun(id);
+  }
 }
+function finishRun(id){
+  if(G.scored)return;G.scored=true;
+  const s=calcScore();
+  const entry={name:G.name,pet:G.pet,score:s.total,gold:G.gold,allies:allyCount(),ending:id,when:Date.now()};
+  P.board.push(entry);P.board.sort((a,b)=>b.score-a.score||a.when-b.when);P.board=P.board.slice(0,50);
+  G.rank=P.board.indexOf(entry)+1;G.entryWhen=entry.when;
+  P.journeys.unshift({when:Date.now(),name:G.name,pet:G.pet,ending:id,score:s.total,gold:G.gold,allies:allyCount(),path:compactPath(G.path)});
+  P.journeys=P.journeys.slice(0,30);
+}
+const compactPath=p=>{const out=[];p.forEach(id=>{if(N[id]&&out[out.length-1]!==id)out.push(id)});return out.map(id=>N[id].t)};
 function go(id){
   if(!N[id])return;
-  G.hist.push(snap());if(G.hist.length>200)G.hist.shift();
-  G.node=id;enter(id);save();render();
+  G.hist.push(snap());if(G.hist.length>250)G.hist.shift();
+  G.node=id;G.path.push(id);enter(id);save();render();
+}
+function lockMsg(c){
+  if(c.need&&!hasItem(c.need))return `🔒 You need: ${ITEMS[c.need][1]}`;
+  if(c.needFlag&&!G.flags[c.needFlag])return `🔒 You haven't befriended ${ALLIES[c.needFlag]||"the right friend"} yet`;
+  if(c.needFlags){const miss=c.needFlags.filter(f=>!G.flags[f]);if(miss.length)return `🔒 Still needed: ${miss.map(f=>NAMES[f]||f).join(", ")}`}
+  if(c.minGold&&G.gold<c.minGold)return `🔒 You need ${c.minGold} 🪙`;
+  return "";
 }
 function render(){
   const n=N[G.node];
-  $("bRewind").disabled=!G.hist.length;
-  $("hud").innerHTML=`<span class="pill">🏴‍☠️ ${esc(G.name)}</span><span class="pill">${PETS[G.pet].emoji} ${PETS[G.pet].name}</span><span class="pill">🪙 ${G.gold}</span>`+G.items.map(k=>`<span class="pill" title="${ITEMS[k][1]}">${ITEMS[k][0]} ${ITEMS[k][1]}</span>`).join("");
+  $("bRewind").disabled=!G.hist.length||!!n.end;
+  $("bSaveJ").disabled=!!n.end;
+  $("hud").innerHTML=`<span class="pill">🏴‍☠️ ${esc(G.name)}</span><span class="pill">${PETS[G.pet].emoji} ${PETS[G.pet].name}</span><span class="pill" title="Doubloons">🪙 ${G.gold}</span><span class="pill" title="${Object.keys(ALLIES).map(f=>(G.flags[f]?"✓ ":"○ ")+ALLIES[f]).join("\n")}">🤝 ${allyCount()}/8 allies</span>`+G.items.map(k=>`<span class="pill" title="${ITEMS[k][1]}">${ITEMS[k][0]} ${ITEMS[k][1]}</span>`).join("");
   $("scene").textContent=n.e;$("ttl").textContent=n.t;
   let html=n.x.map(p=>`<p>${fill(p)}</p>`).join("");
   if(n.pets&&n.pets[PETS[G.pet].kind])html+=`<p>${fill(n.pets[PETS[G.pet].kind])}</p>`;
@@ -433,29 +594,24 @@ function render(){
   if(n.end)html=`<div class="endtag">THE END · Ending ${Object.keys(ENDINGS).indexOf(G.node)+1} of ${Object.keys(ENDINGS).length}</div>`+html;
   $("txt").innerHTML=html;
   $("notes").innerHTML=notes.map(x=>`<div class="n">${x}</div>`).join("");
-  // writing prompt
   const lb=$("logBox");lb.hidden=!n.log;$("logMsg").textContent="";
   if(n.log){$("logQ").textContent="✍️ Captain's Log: "+n.log;const ex=P.log.find(l=>l.node===G.node);$("logIn").value=ex?ex.text:""}
-  // choices
-  const box=$("choices");box.innerHTML="";
+  const box=$("choices");box.innerHTML="";$("scoreBox").innerHTML="";
   if(n.end){
     $("story").classList.add("end");
-    const done=P.endings.length,tot=Object.keys(ENDINGS).length;
-    box.innerHTML=`<div class="pill" style="align-self:flex-start">Endings found: ${done} of ${tot}</div>`;
-    const b1=mk("⚓ Sail again (new adventure)",()=>{G=newGame(G.name,G.pet);save();render()});
-    const b2=mk("🏠 Back to the title screen",()=>{renderTitle();show("title")});
-    const b3=mk("📖 Read my Captain's Log",()=>openLog());
-    box.append(b1,b2,b3);
+    const s=calcScore(),done=P.endings.length,tot=Object.keys(ENDINGS).length;
+    $("scoreBox").innerHTML=`<div class="score"><div><span>🪙 Doubloons (${G.gold} × 10)</span><span>${s.gold}</span></div><div><span>🤝 Allies (${allyCount()} × 25)</span><span>${s.allies}</span></div><div><span>🏁 Ending bonus</span><span>${s.bonus}</span></div><div class="tot"><span>Total score</span><span>${s.total}</span></div><div style="margin-top:6px"><span>🏆 Leaderboard rank on this device</span><span>#${G.rank||"–"}</span></div></div>`;
+    const info=document.createElement("div");info.className="pill";info.style.alignSelf="flex-start";info.textContent=`Endings found: ${done} of ${tot}`;box.appendChild(info);
+    box.append(mk("⚓ Sail again (new adventure)",()=>{G=newGame(G.name,G.pet);notes=[];save();render()}),mk("🏆 See the leaderboard",()=>openBoard()),mk("🗺️ See my journeys",()=>openJourneys()),mk("📖 Read my Captain's Log",()=>openLog()),mk("📋 Copy my score card",copyScoreCard),mk("🏠 Back to the title screen",()=>{renderTitle();show("title")}));
   }else{
     $("story").classList.remove("end");
     n.c.forEach(c=>{
       if(c.ifFlag&&!G.flags[c.ifFlag])return;
       if(c.unlessFlag&&G.flags[c.unlessFlag])return;
-      let locked=false,why="";
-      if(c.need&&!hasItem(c.need)){locked=true;why=`🔒 You need: ${ITEMS[c.need][1]}`}
-      if(c.needFlag&&!G.flags[c.needFlag]){locked=true;why="🔒 You haven't made the right friend yet"}
-      const b=document.createElement("button");b.className="ch";b.disabled=locked;
-      b.innerHTML=esc(c.t).replace(/\{name\}/g,esc(G.name))+(locked?`<small>${why}</small>`:"");
+      const done=c.doneFlag&&G.flags[c.doneFlag];
+      const why=done?"":lockMsg(c);
+      const b=document.createElement("button");b.className="ch";b.disabled=!!(why||done);
+      b.innerHTML=(done?"✓ ":"")+esc(c.t).replace(/\{name\}/g,esc(G.name))+(why?`<small>${why}</small>`:done?`<small>Done</small>`:"");
       b.onclick=()=>{if(c.chance!=null){go(Math.random()<c.chance?c.win:c.lose)}else go(c.to)};
       box.appendChild(b);
     });
@@ -464,9 +620,14 @@ function render(){
   window.scrollTo({top:0});
 }
 function mk(t,fn){const b=document.createElement("button");b.className="ch";b.textContent=t;b.onclick=fn;return b}
+async function copyScoreCard(){
+  const s=calcScore();const t=`🏴‍☠️ The Curse of the Missing Hat\n${G.name} (${PETS[G.pet].name}) finished "${N[G.node].t}"\n🪙 ${G.gold} doubloons · 🤝 ${allyCount()}/8 allies · Score ${s.total}`;
+  try{await navigator.clipboard.writeText(t);notes=["📋 Score card copied!"];}catch(e){notes=["Couldn't copy automatically. Take a screenshot instead."];}
+  $("notes").innerHTML=notes.map(x=>`<div class="n">${x}</div>`).join("");
+}
 $("bRewind").onclick=()=>{
   if(!G||!G.hist.length)return;
-  const s=JSON.parse(G.hist.pop());G.node=s.node;G.items=s.items;G.gold=s.gold;G.flags=s.flags;G.visited=s.visited;notes=[];save();show("game");render();
+  const s=JSON.parse(G.hist.pop());G.node=s.node;G.items=s.items;G.gold=s.gold;G.flags=s.flags;G.visited=s.visited;G.path=s.path||G.path;notes=[];save();show("game");render();
 };
 
 /* ---------------- WRITING LOG ---------------- */
@@ -482,15 +643,64 @@ function openLog(){
   $("logCopyMsg").textContent="";show("log");
 }
 $("bLog").onclick=openLog;
-$("logBack").onclick=()=>{if(G&&G.node){show("game")}else{renderTitle();show("title")}};
 $("logCopy").onclick=async()=>{
   const t=P.log.map(l=>`${l.title}\n(${l.prompt})\n${l.text}`).join("\n\n");
   if(!t){$("logCopyMsg").textContent="Nothing to copy yet.";return}
   try{await navigator.clipboard.writeText(t);$("logCopyMsg").textContent="Copied! Paste it into your document."}catch(e){$("logCopyMsg").textContent="Couldn't copy automatically. Select the text above and copy it."}
 };
-let armed=false;
-$("logClear").onclick=()=>{if(!armed){armed=true;$("logClear").textContent="Tap again to clear";setTimeout(()=>{armed=false;$("logClear").textContent="Clear log"},3500);return}
-  P.log=[];armed=false;$("logClear").textContent="Clear log";save();openLog()};
+let armedLog=false;
+$("logClear").onclick=()=>{if(!armedLog){armedLog=true;$("logClear").textContent="Tap again to clear";setTimeout(()=>{armedLog=false;$("logClear").textContent="Clear log"},3500);return}
+  P.log=[];armedLog=false;$("logClear").textContent="Clear log";save();openLog()};
+
+/* ---------------- LEADERBOARD ---------------- */
+function openBoard(){
+  const rows=P.board.slice(0,10);
+  $("boardList").innerHTML=rows.length?`<table class="lb"><thead><tr><th>#</th><th>Pirate</th><th class="n">🪙</th><th class="n">🤝</th><th class="n">Score</th></tr></thead><tbody>${rows.map((r,i)=>`<tr class="${G&&G.entryWhen&&r.when===G.entryWhen&&r.name===G.name?"me":""}"><td>${i+1}</td><td>${esc(r.name)} ${PETS[r.pet]?PETS[r.pet].emoji:""}<br><small style="color:var(--mute)">${esc(ENDINGS[r.ending]||"")} · ${fmtDate(r.when)}</small></td><td class="n">${r.gold}</td><td class="n">${r.allies}/8</td><td class="n"><b>${r.score}</b></td></tr>`).join("")}</tbody></table>`:`<p style="text-align:center"><i>No scores yet. Finish an adventure to get on the board!</i></p>`;
+  $("boardMsg").textContent="";show("board");
+}
+$("bBoard").onclick=openBoard;
+$("boardCopy").onclick=async()=>{
+  const t="🏆 Doubloon Leaderboard\n"+P.board.slice(0,10).map((r,i)=>`${i+1}. ${r.name} – ${r.score} pts (${r.gold} 🪙, ${r.allies}/8 allies, ${ENDINGS[r.ending]||""})`).join("\n");
+  if(!P.board.length){$("boardMsg").textContent="Nothing to copy yet.";return}
+  try{await navigator.clipboard.writeText(t);$("boardMsg").textContent="Copied!"}catch(e){$("boardMsg").textContent="Couldn't copy automatically."}
+};
+let armedBoard=false;
+$("boardClear").onclick=()=>{if(!armedBoard){armedBoard=true;$("boardClear").textContent="Tap again to clear";setTimeout(()=>{armedBoard=false;$("boardClear").textContent="Clear leaderboard"},3500);return}
+  P.board=[];armedBoard=false;$("boardClear").textContent="Clear leaderboard";save();openBoard()};
+
+/* ---------------- JOURNEYS ---------------- */
+function renderJourneys(){
+  const active=G&&G.node&&!(N[G.node]||{}).end;
+  $("jSaveBox").hidden=!active;
+  $("jSlots").innerHTML=P.saves.length?P.saves.map(slotHtml).join(""):`<p><i>No saved journeys yet.</i></p>`;
+  $("jHistory").innerHTML=P.journeys.length?P.journeys.map(j=>`<div class="entry"><b>${esc(j.name)} ${PETS[j.pet]?PETS[j.pet].emoji:""} · ${esc(ENDINGS[j.ending]||"")}</b> <small>· ${j.score} pts · 🪙 ${j.gold} · 🤝 ${j.allies}/8 · ${fmtDate(j.when)}</small><div style="font-size:14px;margin-top:4px">${j.path.map(esc).join(" → ")}</div></div>`).join(""):`<p><i>Finish an adventure and its route will appear here.</i></p>`;
+}
+function openJourneys(){$("jMsg").textContent="";$("bkMsg").textContent="";if(G&&!$("jName").value)$("jName").value="";renderJourneys();show("journeys")}
+$("bJ").onclick=openJourneys;
+$("bSaveJ").onclick=openJourneys;
+$("jSave").onclick=()=>{
+  if(!G)return;const label=$("jName").value.trim()||`${G.name}'s journey`;
+  const copy=JSON.parse(JSON.stringify(G));copy.hist=copy.hist.slice(-60);
+  P.saves.unshift({id:"s"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),label:label.slice(0,40),when:Date.now(),g:copy});
+  P.saves=P.saves.slice(0,12);save();$("jName").value="";$("jMsg").textContent="✓ Journey saved. Find it on the title screen or below.";renderJourneys();
+};
+const enc=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+const dec=s=>JSON.parse(decodeURIComponent(escape(atob(s.trim()))));
+$("bkMake").onclick=()=>{$("bkCode").value="PIRATE2-"+enc({endings:P.endings,log:P.log,board:P.board,journeys:P.journeys,saves:P.saves});$("bkMsg").textContent="Backup code created. Copy it and keep it safe."};
+$("bkCopy").onclick=async()=>{const c=$("bkCode");if(!c.value){$("bkMsg").textContent="Create a backup code first.";return}
+  try{await navigator.clipboard.writeText(c.value);$("bkMsg").textContent="Copied!"}catch(e){c.select();$("bkMsg").textContent="Select the code and copy it manually."}};
+$("bkLoad").onclick=()=>{
+  try{const o=dec($("bkCode").value.trim().replace(/^PIRATE2-/,""));if(!o||typeof o!=="object")throw 0;
+    const arr=(a,max)=>Array.isArray(a)?a.slice(0,max):[];
+    const okSave=s=>s&&s.g&&typeof s.g.node==="string"&&N[s.g.node]&&PETS[s.g.pet]&&Array.isArray(s.g.items)&&typeof s.g.gold==="number"&&s.g.flags&&typeof s.g.flags==="object"&&s.g.visited&&typeof s.g.visited==="object";
+    P.endings=[...new Set(P.endings.concat(arr(o.endings,20).filter(e=>ENDINGS[e])))];
+    P.log=arr(o.log,60).filter(l=>l&&N[l.node]&&typeof l.text==="string").map(l=>({node:l.node,title:String(N[l.node].t),prompt:String(N[l.node].log||""),text:String(l.text).slice(0,3000)}));
+    P.board=arr(o.board,50).filter(r=>r&&typeof r.score==="number"&&ENDINGS[r.ending]).map(r=>({name:String(r.name||"").slice(0,20),pet:PETS[r.pet]?r.pet:"parrot",score:r.score,gold:+r.gold||0,allies:+r.allies||0,ending:r.ending,when:+r.when||0}));
+    P.journeys=arr(o.journeys,30).filter(j=>j&&Array.isArray(j.path)&&ENDINGS[j.ending]).map(j=>({when:+j.when||0,name:String(j.name||"").slice(0,20),pet:PETS[j.pet]?j.pet:"parrot",ending:j.ending,score:+j.score||0,gold:+j.gold||0,allies:+j.allies||0,path:j.path.slice(0,60).map(String)}));
+    P.saves=arr(o.saves,12).filter(okSave).map(s=>({id:String(s.id||"s"+Math.random()),label:String(s.label||"Journey").slice(0,40),when:+s.when||0,g:s.g}));
+    save();renderJourneys();$("bkMsg").textContent="Backup imported ✓"}
+  catch(e){$("bkMsg").textContent="That code didn't work. Check you pasted all of it."}
+};
 
 renderTitle();
 </script>
