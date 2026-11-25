@@ -202,7 +202,8 @@ const ITEMS={key:["🗝️","Suspiciously Sticky Key"],scope:["🔭","Telescope 
 const PETS={
  parrot:{name:"Gerald",kind:"parrot",emoji:"🦜",blurb:"Repeats the most embarrassing thing you ever said."},
  crab:{name:"Clawdia",kind:"crab",emoji:"🦀",blurb:"Pinches first. Apologises never."},
- goat:{name:"Sir Chews-a-Lot",kind:"goat",emoji:"🐐",blurb:"Will eat anything, including evidence."}
+ goat:{name:"Sir Chews-a-Lot",kind:"goat",emoji:"🐐",blurb:"Will eat anything, including evidence."},
+ shihtzu:{name:"Koo",kind:"shihtzu",emoji:"🐶",blurb:"A very silly, very fluffy white shih tzu. Trips over his own ears."}
 };
 /* Allies: each side character who becomes your friend */
 const ALLIES={f_bart:"Bartholomew the Cook",f_sam:"Squid-Eye Sam",f_whisk:"Admiral Whiskers",f_prof:"Professor Bubbles",f_kevin:"Kevin the Sea Monster",f_crab:"King Crabsworth",f_dave:"The Dreaded Dave",f_madame:"Madame Mizzenmast"};
@@ -217,7 +218,7 @@ wake:{e:"🏴‍☠️",t:"A Very Bad Morning",x:[
  "Captain Betty “Barnacle” Bellowhorn is yelling so loudly that your teeth are vibrating. “MY HAT! SOMEBODY STOLE THE HAT OF DESTINY! THE ONE WITH THE TREASURE MAP SEWN INSIDE THE LINING!”",
  "Every pirate on deck turns to look at you, {name}. This is partly because you're the newest crew member, and partly because you're the only one holding a spoon at breakfast, which looks suspicious.",
  "“Somebody find that hat,” says the Captain, “or we're eating the figurehead for dinner.”"],
- pets:{parrot:"{pet} flaps onto your shoulder and squawks, “{NAME} DID IT! {NAME} DID IT!” You did not do it. You're almost certain.",crab:"{pet} clicks both claws in what you are sure is a very good alibi.",goat:"{pet} is chewing something hat-shaped. It turns out to be a sock. Phew."},
+ pets:{parrot:"{pet} flaps onto your shoulder and squawks, “{NAME} DID IT! {NAME} DID IT!” You did not do it. You're almost certain.",crab:"{pet} clicks both claws in what you are sure is a very good alibi.",goat:"{pet} is chewing something hat-shaped. It turns out to be a sock. Phew.",shihtzu:"{pet} sniffs the air, flops onto the deck in a heap of white fluff, and stares at you with the most innocent face ever worn by a suspect."},
  c:[{t:"Get up and find out what the Captain wants",to:"deck"},{t:"Pull the blanket back over your head and go back to sleep",to:"end_nap"}]},
 
 deck:{e:"⚓",t:"All Hands on Deck",x:[
@@ -233,14 +234,14 @@ galley:{e:"🍲",t:"The Galley of Questionable Stew",x:[
 stew:{e:"🧦",t:"The Sock Stew",give:["key"],set:["v_stew"],x:[
  "You take a spoonful. It tastes like a wet sock that once met a fish at a party and did not enjoy it.",
  "Something hard clinks against your teeth. You spit it into your hand: a <b>Suspiciously Sticky Key</b>. You decide not to ask why it was in the stew. Some mysteries are not for knowing."],
- pets:{parrot:"{pet} says, “Ewww. {NAME} ATE THE SOCK STEW.”",crab:"{pet} sidesteps away from you and refuses to make eye contact.",goat:"{pet} looks at the stew with deep respect, then eats the pot."},
+ pets:{parrot:"{pet} says, “Ewww. {NAME} ATE THE SOCK STEW.”",crab:"{pet} sidesteps away from you and refuses to make eye contact.",goat:"{pet} looks at the stew with deep respect, then eats the pot.",shihtzu:"{pet} licks the stew once, sneezes through his fringe, then tries to bury the pot under a coil of rope."},
  log:"Describe the taste of the sock stew using a simile nobody has ever used before.",
  c:[{t:"Back to the galley",to:"galley"}]},
 crumbs:{e:"🍪",t:"The Crumb Trail",give:["crumbs"],set:["v_crumbs"],x:[
  "You follow the crumbs along the deck, up the stairs, past a sleeping pirate, around a barrel, and straight to the railing.",
  "There, in a smear of butter, are tiny webbed footprints. A seagull. And next to each print is a perfect little circle, like the mark of a monocle. Which is ridiculous. Birds don't wear monocles.",
  "You scoop up the crumbs. They might come in handy. Or they might be lunch."],
- pets:{parrot:"{pet} whispers, “MONOCLE. MONOCLE.” You tell them to be quiet.",crab:"{pet} measures the footprints with one claw and nods wisely.",goat:"{pet} eats a few crumbs, then pretends not to have."},
+ pets:{parrot:"{pet} whispers, “MONOCLE. MONOCLE.” You tell them to be quiet.",crab:"{pet} measures the footprints with one claw and nods wisely.",goat:"{pet} eats a few crumbs, then pretends not to have.",shihtzu:"{pet} follows the crumbs with enormous seriousness, trips over his own ears, and licks up the last one."},
  c:[{t:"Back to the galley",to:"galley"}]},
 cook:{e:"🥧",t:"The Cook Cracks",x:[
  "“I didn't take it!” Bartholomew shouts, before you've asked anything. “Also, I'm not hiding anything behind my back!”",
@@ -306,7 +307,7 @@ workshop:{e:"🔧",t:"The Professor's Workshop",x:[
 test_gadget:{e:"💥",t:"What Could Go Wrong",give:["spoon"],gold:1,set:["h_prof","f_prof"],x:[
  "You press the button. <i>FWOOSH.</i> The spoon rockets through the ceiling, takes you with it, flies in a graceful loop and drops you into a barrel of rubber chickens.",
  "“EXCELLENT TEST!” cries the Professor. “Only mildly on fire!” He pays you one doubloon in hazard pay and hands you the spoon. “If you ever need a genius, I'm your man. Please don't press the red button on it. Ever. I mean it. Not even once.”"],
- pets:{parrot:"{pet} repeats, “DON'T PRESS THE RED BUTTON.” You file this under Things You Will Definitely Think About Later.",crab:"{pet} is wearing a tiny singed hat and looks furious about it.",goat:"{pet} tries to eat the spoon. The spoon is not edible. {pet} appears personally betrayed."},
+ pets:{parrot:"{pet} repeats, “DON'T PRESS THE RED BUTTON.” You file this under Things You Will Definitely Think About Later.",crab:"{pet} is wearing a tiny singed hat and looks furious about it.",goat:"{pet} tries to eat the spoon. The spoon is not edible. {pet} appears personally betrayed.",shihtzu:"{pet} hides behind your boots with one slightly singed ear, tail still wagging. He regrets nothing."},
  c:[{t:"Climb out of the barrel and back on deck",to:"deck"}]},
 skip_gadget:{e:"🥄",t:"Safety First",give:["spoon"],set:["h_prof"],x:[
  "“Pity,” says the Professor. “The last volunteer made a lovely sound.”",
@@ -332,7 +333,7 @@ swim:{e:"🏊",t:"The Trouserless Swim",set:["pantsless"],x:[
  "You dive into the sea. It is cold, wet, and surprisingly salty. You swim for a long time.",
  "Then a flock of seagulls swoops down, steals your trousers, and flies away laughing.",
  "You reach a reef with seaweed in your hair, sand in your socks, and absolutely no trousers."],
- pets:{parrot:"“{NAME} HAS NO PANTS! {NAME} HAS NO PANTS!” shouts {pet} from above, helpfully.",crab:"{pet} scuttled along the seabed and arrived first. Typical crab.",goat:"{pet} swam too, which goats are not supposed to do. They look furious about it."},
+ pets:{parrot:"“{NAME} HAS NO PANTS! {NAME} HAS NO PANTS!” shouts {pet} from above, helpfully.",crab:"{pet} scuttled along the seabed and arrived first. Typical crab.",goat:"{pet} swam too, which goats are not supposed to do. They look furious about it.",shihtzu:"{pet} paddles beside you like a small, furious cloud, topknot held high above the waves."},
  c:[{t:"Paddle toward the only gap in the reef",to:"reef"}]},
 cannon:{e:"💥",t:"The Cannon Plan",gold:1,x:[
  "The crew loads you into the big cannon. “Aim for the island!” says the Captain. “Or the general area!”",
@@ -342,7 +343,7 @@ cannon:{e:"💥",t:"The Cannon Plan",gold:1,x:[
 reef:{e:"🐙",t:"A Visitor From the Deep",x:[
  "The water bubbles. A tentacle rises. Then another. Then one huge, sad, googly eye. It's Kevin, the sea monster: forty feet of tentacle and anxiety. He is guarding the only gap in the reef.",
  "“Please don't scream,” says Kevin. “Everyone screams. I'm very sensitive. Nobody gets through my reef unless they're polite.”"],
- pets:{parrot:"{pet} screams anyway. “KEVIN! KEVIN! {NAME} IS SCARED!” Kevin flinches.",crab:"{pet} waves a claw. Kevin waves back a tentacle. They are instantly best friends.",goat:"{pet} tries to eat the tentacle. Kevin giggles. It tickles."},
+ pets:{parrot:"{pet} screams anyway. “KEVIN! KEVIN! {NAME} IS SCARED!” Kevin flinches.",crab:"{pet} waves a claw. Kevin waves back a tentacle. They are instantly best friends.",goat:"{pet} tries to eat the tentacle. Kevin giggles. It tickles.",shihtzu:"{pet} barks at Kevin exactly once, then rolls over for a belly rub. Kevin has no hands, but he is deeply moved."},
  c:[{t:"🎲 Tell Kevin your best joke (60% chance it lands)",chance:.6,win:"kevin_joke",lose:"kevin_sad"},{t:"Offer Kevin the biscuit crumbs",need:"crumbs",to:"kevin_crumbs"},{t:"Scream (everyone else does)",to:"scream"}]},
 kevin_joke:{e:"🐙",t:"Kevin Laughs",set:["f_kevin"],x:[
  "You tell Kevin: “Why did the pirate bring a ladder? To reach the high seas!” Kevin laughs so hard he makes a small wave. “I love that!” he sniffles. “Nobody tells me jokes. They scream.”",
@@ -603,7 +604,7 @@ const compactPath=p=>{const out=[];p.forEach(id=>{if(N[id]&&out[out.length-1]!==
 function go(id){
   if(!N[id])return;
   G.hist.push(snap());if(G.hist.length>250)G.hist.shift();
-  G.node=id;G.path.push(id);enter(id);save();render();play(NODESFX[id]||(fx.includes("ally")?"ally":fx[0])||"page");
+  G.node=id;G.path.push(id);enter(id);save();render();play(NODESFX[id]||(fx.includes("ally")?"ally":fx[0])||((N[id].pets&&PETSFX[PETS[G.pet].kind])?PETSFX[PETS[G.pet].kind]:"page"));
 }
 function lockMsg(c){
   if(c.need&&!hasItem(c.need))return `🔒 You need: ${ITEMS[c.need][1]}`;
@@ -795,6 +796,7 @@ const person=(x,y,s,o)=>{const skin=o.skin||"#f1b98a",coat=o.coat||"#8a2a2a",pan
  <path d="M-24 -84 Q0 -94 24 -84 L22 -34 H-22z" fill="${coat}" ${ol(2.2)}/><path d="M-22 -48 H22" stroke="#3b2413" stroke-width="5"/><rect x="-5" y="-51" width="10" height="7" fill="#ffd23f" ${ol(1)}/>
  <path d="M-24 -82 Q-40 -62 -32 -44 L-24 -48 Q-28 -62 -18 -76z" fill="${coat}" ${ol(2)}/><path d="M24 -82 Q40 -62 32 -44 L24 -48 Q28 -62 18 -76z" fill="${coat}" ${ol(2)}/><circle cx="-31" cy="-42" r="5" fill="${skin}" ${ol(1.6)}/><circle cx="31" cy="-42" r="5" fill="${skin}" ${ol(1.6)}/>
  <circle cx="0" cy="-100" r="22" fill="${skin}" ${ol(2.4)}/>${face}${extra}${hatSvg}</g></g>`};
+const koo=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="2" rx="34" ry="6" fill="#000" opacity=".28"/><g class="bob"><path d="M-34 -22 Q-48 -34 -40 -48 Q-30 -40 -28 -30z" fill="#fdfdfd" ${ol(2.2)}/><ellipse cx="-4" cy="-24" rx="32" ry="20" fill="#fdfdfd" ${ol(2.4)}/><path d="M-24 -10 q4 10 0 14 h12 q-4 -4 0 -14z M8 -10 q4 10 0 14 h12 q-4 -4 0 -14z" fill="#f2f2f2" ${ol(2)}/><path d="M-18 -30 q6 6 12 0 M2 -34 q6 6 12 0" stroke="#d9dde2" stroke-width="2" fill="none"/><circle cx="22" cy="-46" r="22" fill="#fdfdfd" ${ol(2.4)}/><path d="M8 -52 Q-4 -40 4 -22 Q12 -34 12 -46z" fill="#f4f4f4" ${ol(2.2)}/><path d="M36 -52 Q48 -38 40 -20 Q32 -34 32 -46z" fill="#f4f4f4" ${ol(2.2)}/><path d="M14 -66 Q22 -86 32 -66z" fill="#fdfdfd" ${ol(2)}/><path d="M16 -68 L30 -68" stroke="#e0452a" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="-72" r="4" fill="#e0452a" ${ol(1.2)}/><circle cx="14" cy="-48" r="4.2" fill="${INK}"/><circle cx="30" cy="-48" r="4.2" fill="${INK}"/><circle cx="15.2" cy="-49.4" r="1.4" fill="#fff"/><circle cx="31.2" cy="-49.4" r="1.4" fill="#fff"/><ellipse cx="22" cy="-40" rx="5" ry="3.6" fill="${INK}"/><path d="M22 -37 q-6 8 -10 4 M22 -37 q6 8 10 4" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M18 -33 q4 14 8 0z" fill="#ff8aa0" ${ol(1.4)}/></g></g>`;
 const crab=(x,y,s,crown)=>`<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="2" rx="40" ry="6" fill="#000" opacity=".28"/><g class="bob"><path d="M-26 -14 L-44 -2 M-22 -8 L-40 6 M26 -14 L44 -2 M22 -8 L40 6" stroke="#b02a1a" stroke-width="5" stroke-linecap="round"/><ellipse cx="0" cy="-22" rx="30" ry="20" fill="#e0452a" ${ol(2.4)}/><path d="M-28 -30 Q-52 -52 -40 -64 Q-26 -62 -22 -42z" fill="#e0452a" ${ol(2.2)}/><path d="M28 -30 Q52 -52 40 -64 Q26 -62 22 -42z" fill="#e0452a" ${ol(2.2)}/><path d="M-14 -38 V-50 M14 -38 V-50" stroke="${INK}" stroke-width="2.4"/><circle cx="-14" cy="-52" r="6" fill="#fff" ${ol(1.6)}/><circle cx="14" cy="-52" r="6" fill="#fff" ${ol(1.6)}/><circle cx="-13" cy="-51" r="2.6" fill="${INK}"/><circle cx="15" cy="-51" r="2.6" fill="${INK}"/><path d="M-9 -18 Q0 -12 9 -18" fill="none" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/>${crown?`<path d="M-14 -66 L-14 -82 L-7 -74 L0 -88 L7 -74 L14 -82 L14 -66z" fill="#ffd23f" ${ol(2)}/>`:""}</g></g>`;
 const kevin=(x,y,s,sad)=>`<g transform="translate(${x} ${y}) scale(${s})"><g class="bob"><path d="M-60 0 Q-70 -20 -50 -30 Q-40 -10 -34 0z M-30 0 Q-36 -26 -16 -30 Q-12 -10 -10 0z M10 0 Q8 -26 24 -30 Q34 -10 30 0z M34 0 Q40 -20 60 -28 Q64 -10 54 0z" fill="#7a3fb0" ${ol(2)}/><path d="M-44 -26 Q-52 -92 0 -108 Q52 -92 44 -26 Q0 -14 -44 -26z" fill="#9a56d0" ${ol(2.6)}/><path d="M-20 -88 Q-4 -100 10 -92" fill="none" stroke="#c89af0" stroke-width="5" stroke-linecap="round"/><circle cx="-18" cy="-60" r="14" fill="#fff" ${ol(2)}/><circle cx="18" cy="-60" r="14" fill="#fff" ${ol(2)}/><circle cx="-16" cy="-58" r="6" fill="${INK}"/><circle cx="20" cy="-58" r="6" fill="${INK}"/><circle cx="-14" cy="-61" r="2" fill="#fff"/><circle cx="22" cy="-61" r="2" fill="#fff"/><path d="${sad?"M-12 -36 Q0 -44 12 -36":"M-14 -40 Q0 -28 14 -40"}" fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>${sad?`<path d="M-24 -44 Q-26 -36 -24 -32" stroke="#9be1ff" stroke-width="3" stroke-linecap="round" fill="none"/>`:""}</g></g>`;
 const gull=(x,y,s,o)=>{o=o||{};return `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="2" rx="30" ry="5" fill="#000" opacity=".25"/><g class="bob"><path d="M-30 -30 Q-34 -62 0 -66 Q30 -62 32 -34 Q10 -6 -14 -10z" fill="#fdfdf5" ${ol(2.4)}/><path d="M-4 -44 Q-30 -50 -44 -34 Q-24 -28 -4 -34z" fill="#d7dbe0" ${ol(2)}/><circle cx="14" cy="-66" r="15" fill="#fdfdf5" ${ol(2.2)}/><path d="M26 -68 L44 -62 L26 -58z" fill="#ffb300" ${ol(1.8)}/><circle cx="18" cy="-70" r="3" fill="${INK}"/>${o.mono?`<circle cx="20" cy="-70" r="8" fill="none" stroke="#ffd23f" stroke-width="2.2"/><path d="M26 -62 q4 10 0 16" stroke="#ffd23f" fill="none" stroke-width="1.4"/>`:""}<path d="M-10 -10 V4 M6 -8 V4" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/></g></g>`};
@@ -860,8 +862,9 @@ function sceneSVG(id,label){
   const sc=n>=4?.9:1.05;
   const body=acts.map((a,i)=>{const f=CAST[a];return f?f(xs[i],th.gy,sc,k):""}).join("");
   const z=id==="end_nap"?zzz(420,th.gy-100):"";
+  let dogS="";if(typeof G!=="undefined"&&G&&G.pet==="shihtzu"){const yi=acts.indexOf("you");if(yi>=0){const dx=yi>0?xs[yi]-70:xs[yi]+70;dogS=koo(dx,th.gy,.85)}else if(id!=="title")dogS=koo(70,th.gy,.8)}
   const hat=id==="end_biscuit"||id==="end_pants"?"":"";
-  return `<svg viewBox="0 0 ${SW} ${SH}" role="img" aria-label="${esc(label||"")}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">${th.bg}${body}${z}${th.fg||""}${finish(k)}</svg>`;
+  return `<svg viewBox="0 0 ${SW} ${SH}" role="img" aria-label="${esc(label||"")}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">${th.bg}${body}${dogS}${z}${th.fg||""}${finish(k)}</svg>`;
 }
 
 /* ---------------- SOUND EFFECTS (synthesised, no files) ---------------- */
@@ -885,8 +888,10 @@ const SFX={
  big(){arp([392,523,659,784,1047,784,1047,1319],.16,"square",.07,.11);tone(1319,.8,"triangle",.09,.95)},
  ding(){tone(1175,.25,"sine",.12);tone(1568,.35,"sine",.1,.1)},
  buzz(){tone(160,.25,"sawtooth",.1)},
+ yip(){tone(900,.07,"square",.07,0,500);tone(1100,.09,"square",.07,.12,300)},
  page(){noise(.12,.08,0,3000)}
 };
+const PETSFX={shihtzu:"yip"};
 const NODESFX={test_gadget:"boom",cannon:"boom",end_moon:"boom",swim:"splash",row:"splash",kevin_sad:"sad",scream:"gull",pun_lose:"sad",slip:"sad",dance_lose:"sad",hold2:"squeak",gift:"squeak",scuttle:"squeak",kevin_joke:"ding",kevin_crumbs:"ding",pun_win:"fanfare",dance_win:"ally",end_nap:"sad",end_alliance:"big",end_biscuit:"fanfare",end_pants:"fanfare",end_fair:"fanfare",end_nest:"fanfare",end_crab:"fanfare",end_kevin:"fanfare",end_dance:"fanfare",accuse:"gull",tree:"gull"};
 const play=n=>{if(P.mute)return;try{SFX[n]&&SFX[n]()}catch(e){}};
 function updateMute(){$("bMute").textContent=P.mute?"🔇 Sound off":"🔊 Sound on"}
